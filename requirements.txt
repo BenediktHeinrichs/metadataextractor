@@ -31,6 +31,6 @@ PyMuPDF
 nltk
 flask
 pygments
-python-magic-bin
+python-magic
 pattern
 validators>=0.18.1
