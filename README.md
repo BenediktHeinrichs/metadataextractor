@@ -37,6 +37,12 @@ pip install -r requirements.txt
 
 If you plan on using it on .mp3 files you need to install [ffmpeg](https://ffmpeg.zeranoe.com/builds/) and make it available on PATH.
 
+On windows, please install:
+
+```bash
+pip install python-magic-bin==0.4.14
+```
+
 ## Server
 
 For running MetadataExtractor as a server, just execute the `server.py` with Python.

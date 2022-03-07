@@ -32,7 +32,6 @@ nltk
 flask
 pygments
 python-magic
-python-magic-bin==0.4.14
 pattern
 validators>=0.18.1
 google_api_core==1.31.4
