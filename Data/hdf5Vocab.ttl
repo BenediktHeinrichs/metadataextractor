@@ -1,0 +1,28 @@
+@base <http://aims.org/hdf5Vocab/> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcam: <http://purl.org/dc/dcam/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix hdf5Vocab: <http://aims.org/hdf5Vocab/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://aims.org/hdf5Vocab/>
+    dcterms:title "HDF5 Vocab"@en .
+
+hdf5Vocab:parameterVersion
+    dcterms:description "The parameter version"@en ;
+    dcterms:issued "2021-03-17"^^<http://www.w3.org/2001/XMLSchema#date> ;
+    a rdf:Property ;
+    rdfs:comment "The parameter version."@en ;
+    rdfs:isDefinedBy <http://aims.org/hdf5Vocab/> ;
+    rdfs:label "kkn_parameter_version"@en .
+
+hdf5Vocab:pipelineVersion
+    dcterms:description "The pipeline version"@en ;
+    dcterms:issued "2021-03-17"^^<http://www.w3.org/2001/XMLSchema#date> ;
+    a rdf:Property ;
+    rdfs:comment "The pipeline version."@en ;
+    rdfs:isDefinedBy <http://aims.org/hdf5Vocab/> ;
+    rdfs:label "kkn_pipeline_version"@en .

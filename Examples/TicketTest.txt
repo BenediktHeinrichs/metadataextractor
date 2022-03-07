@@ -1,0 +1,15 @@
+Prepare the deployment for production server
+
+Refer to the product ticket for the description of the ticket.
+
+- [ ] Update AutoSPinstaller.xml for installation
+  - [ ] Check if there need to be seperate SP Installer xmls for the Farm join since there is only one farm.
+  - [x] Check if we need a separate file. Set the secret keys and replace it with Consul values into the deployment script.
+- [x] Detect why the error during installation "Previously installed Office 2019" (PreReqCheck) occurred
+- [x] Parameter for the Installation => For Produktiv vs Dev
+  * Create a parameter to filter (blacklist) steps
+  * Add a json file with default values for config params, also secrets, check if this solves #322
+- [ ] Make sure the production deployment is working
+- [*] Put CoScinE DB creation into its own step and otherwise throw 3.02 out
+
+Topic/600-productionDeployment

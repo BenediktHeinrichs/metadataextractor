@@ -1,0 +1,161 @@
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix aims: <http://aims.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
+@prefix schema: <http://schema.org/> .
+
+aims:CatalogShape
+    a sh:NodeShape ;
+    sh:targetClass dcat:Catalog ;
+    sh:property [
+        sh:path dct:identifier ;
+        sh:datatype xsd:string ;
+        sh:name "Identifier" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path dcat:dataset ;
+        sh:name "Dataset" ;
+        sh:node aims:DatasetShape ;
+    ] ;
+    sh:property [
+        sh:path dcat:catalog ;
+        sh:name "Catalog" ;
+        sh:node aims:CatalogShape ;
+    ] .
+
+aims:DatasetShape
+    a sh:NodeShape ;
+    sh:targetClass dcat:Dataset ;
+    sh:property [
+        sh:path dct:identifier ;
+        sh:datatype xsd:string ;
+        sh:name "Identifier" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path qudt:dataType ;
+        sh:datatype xsd:string ;
+        sh:name "DataType" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path qudt:baseDimensionEnumeration ;
+        sh:datatype xsd:string ;
+        sh:name "Base Dimension Enumeration" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path qudt:length ;
+        sh:datatype xsd:string ;
+        sh:name "Length" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path qudt:value ;
+        sh:datatype xsd:string ;
+        sh:name "Value" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] .
+
+aims:TimeseriesShape
+    a sh:NodeShape ;
+    sh:targetClass aims:Timeseries ;
+    dct:title "Dataset_subclass" ;
+    sh:property [
+        sh:path sem:hasTimeStamp ;
+        sh:datatype xsd:string ;
+        sh:name "TimeStamp" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path aims:samplerate ;
+        sh:datatype xsd:string ;
+        sh:name "Samplerate" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path schema:version ;
+        sh:datatype xsd:string ;
+        sh:name "kkn_TIMESERIES_VERSION" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] .
+
+aims:ParameterShape
+    a sh:NodeShape ;
+    sh:targetClass aims:Parameter ;
+    sh:property [
+        sh:path aims:origin ;
+        sh:datatype xsd:string ;
+        sh:name "Origin" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path aims:units ;
+        sh:datatype xsd:string ;
+        sh:name "Units" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path aims:variable ;
+        sh:datatype xsd:string ;
+        sh:name "Variable" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    #] ;
+    #sh:property [
+    #    sh:path aims:parameterVersion ;
+    #    sh:datatype xsd:string ;
+    #    sh:name "kkn_parameter_version" ;
+    #    sh:maxCount 1 ;
+    #    sh:minCount 1 ;
+    ] .
+
+aims:PipelineShape
+    a sh:NodeShape ;
+    sh:targetClass aims:Pipeline ;
+    sh:property [
+        sh:path aims:origin ;
+        sh:datatype xsd:string ;
+        sh:name "Origin" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path aims:units ;
+        sh:datatype xsd:string ;
+        sh:name "Units" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    ] ;
+    sh:property [
+        sh:path aims:variable ;
+        sh:datatype xsd:string ;
+        sh:name "Variable" ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+    #] ;
+    #sh:property [
+    #    sh:path aims:pipelineVersion ;
+    #    sh:datatype xsd:string ;
+    #    sh:name "kkn_pipeline_version" ;
+    #    sh:maxCount 1 ;
+    #    sh:minCount 1 ;
+    ] .
