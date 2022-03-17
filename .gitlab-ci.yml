@@ -7,17 +7,18 @@ stages:
   - build
 
 .prepare:
-  image: python
+  image: tobix/pywine
   before_script:
-    - apt-get update && apt-get install -y libmagic-dev
-    - pip install pyinstaller
-    - pip install -r requirements.txt
+    - wine pip install --user --upgrade pip
+    - wine pip install wheel
+    - wine pip install -r requirements.txt
+    - wine python -m nltk.downloader punkt
 
 build-branch:
   extends: .prepare
   stage: build
   script:
-    - pyinstaller server.py
+    - wine pyinstaller server.py
   artifacts:
     paths:
       - dist
