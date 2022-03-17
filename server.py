@@ -28,9 +28,9 @@ def encoded_words_to_text(encoded_words):
     )
     if result:
         charset, encoding, encoded_text = result.groups()
-        if encoding is "B":
+        if encoding == "B":
             byte_string = base64.b64decode(encoded_text)
-        elif encoding is "Q":
+        elif encoding == "Q":
             byte_string = quopri.decodestring(encoded_text)
         if byte_string:
             byte_string.decode(charset)
@@ -91,7 +91,7 @@ def version():
 
 if __name__ == "__main__":
     app.run(
-        debug=True,
-        host=os.environ.get("METADATAEXTRACTORHOST", "127.0.0.1"),
+        debug=False,
+        host=os.environ.get("METADATAEXTRACTORHOST", "0.0.0.0"),
         port=os.environ.get("METADATAEXTRACTORPORT", 36541),
     )
