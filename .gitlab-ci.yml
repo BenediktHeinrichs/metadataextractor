@@ -9,6 +9,8 @@ stages:
 .prepare:
   image: tobix/pywine
   before_script:
+    - apt install winetricks
+    - winetricks vcrun2015
     - wine pip install --user --upgrade pip
     - wine pip install wheel
     - wine pip install -r requirements.txt
