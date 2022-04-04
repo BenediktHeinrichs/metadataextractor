@@ -8,9 +8,11 @@ stages:
 
 .prepare:
   image: tobix/pywine
-  before_script:
+  before_script:    
     - wine pip install --user --upgrade pip
+    - wine pip install --upgrade setuptools
     - wine pip install wheel
+    - wine pip install gensim-4.1.2-py3-none-any.whl
     - wine pip install -r requirements.txt
     - wine python -m nltk.downloader punkt
 
