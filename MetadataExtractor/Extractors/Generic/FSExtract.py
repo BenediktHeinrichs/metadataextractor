@@ -1,7 +1,6 @@
 from argparse import ArgumentParser
 import sys
 
-from ..Interfaces.IExtract import IExtract
 from .IGenericExtract import IGenericExtract
 
 

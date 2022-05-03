@@ -2,7 +2,7 @@ import uuid
 from MetadataExtractor.Util import metadataFormatter
 
 
-def createGraphForFileGraph(fileInfo, config, graphOptions):
+def createGraphForFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
 
     values = graphOptions["values"]
 
@@ -49,12 +49,13 @@ def createGraphForFileGraph(fileInfo, config, graphOptions):
                 }
             ]
         },
+        dataGraphUsage
     )
 
     return trig
 
 
-def addEntryToFileGraph(fileInfo, config, graphOptions):
+def addEntryToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
 
     values = graphOptions["values"]
 
@@ -103,12 +104,13 @@ def addEntryToFileGraph(fileInfo, config, graphOptions):
                 }
             ]
         },
+        dataGraphUsage
     )
 
     return trig
 
 
-def addMetadataToFileGraph(unformattedIdentifier, config, graphOptions):
+def addMetadataToFileGraph(unformattedIdentifier, config, graphOptions, dataGraphUsage=False):
     values = graphOptions["values"]
 
     additionalPrefixes = []
@@ -119,7 +121,14 @@ def addMetadataToFileGraph(unformattedIdentifier, config, graphOptions):
 
     identifier = metadataFormatter.formatIdentifier(unformattedIdentifier)
 
-    trig += "<{}{}>".format(getFileGraph(config), identifier)
+    addPrefix = "@"
+    if "@" in identifier:
+        addPrefix = "&"
+
+    dataGraph = addPrefix + "type=data&extracted=true"
+    metadataGraph = addPrefix + "type=metadata&extracted=true"
+
+    trig += "<{}{}{}>".format(getFileGraph(config), identifier, dataGraph if dataGraphUsage else metadataGraph)
     trig += " {\n"
 
     subjectString = "<{}{}>".format(getFileGraph(config), identifier)

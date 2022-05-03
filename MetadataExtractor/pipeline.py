@@ -9,7 +9,7 @@ import logging
 
 log = logging.getLogger(__name__)
 import magic
-from MetadataExtractor.Util import inputFilter
+from MetadataExtractor.Util import inputFilter, metadataCreation
 
 # Dynamic import based on config
 def importDependencies(config):
@@ -162,6 +162,20 @@ def run_pipeline(fileInfos, config):
             )
         mimetype = generic_extraction["metadata"]["Content-Type"].lower()
         log.info("Mimetype: " + repr(mimetype))
+        # Store MimeType
+        metadataHandler.refine_and_store_metadata(
+            metadataCreation.addMetadataToFileGraph(
+                fileInfo["identifier"],
+                config,
+                {
+                    "additionalPrefixes": [
+                        "@prefix dcat: <http://www.w3.org/ns/dcat#>"
+                    ],
+                    "values": [{"predicate": "dcat:mediaType", "object": mimetype}],
+                },
+                True
+            )
+        )
 
         for extractorType in extractors.keys():
             for extractor in extractors[extractorType]:

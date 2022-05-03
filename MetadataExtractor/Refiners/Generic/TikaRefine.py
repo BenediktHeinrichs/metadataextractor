@@ -1,10 +1,10 @@
 import os
+import datetime
 import logging
 
 log = logging.getLogger(__name__)
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
 from ..Interfaces.IRefine import IRefine
-
 
 class TikaRefine(IRefine):
     def refine_metadata(self, metadata, fileInfo, metadataformat="trig"):
@@ -59,6 +59,13 @@ class TikaRefine(IRefine):
                     )
         
         values.append({"predicate": "a", "object": "http://www.w3.org/ns/dcat#Catalog"})
+        values.append({"predicate": "a", "object": "http://www.w3.org/ns/dcat#Distribution"})
+
+        file_stats = os.stat(fileInfo["file"])
+
+        values.append({"predicate": "dcat:byteSize", "object": file_stats.st_size})
+        values.append({"predicate": "dcterms:created", "object": datetime.datetime.fromtimestamp(file_stats.st_ctime)})
+        values.append({"predicate": "dcterms:modified", "object": datetime.datetime.fromtimestamp(file_stats.st_mtime)})
 
         trig = metadataCreation.addMetadataToFileGraph(
             fileInfo["identifier"],
@@ -72,6 +79,7 @@ class TikaRefine(IRefine):
                 ],
                 "values": values,
             },
+            True
         )
 
         return (trig, "trig")

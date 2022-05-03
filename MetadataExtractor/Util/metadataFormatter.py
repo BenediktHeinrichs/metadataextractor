@@ -1,4 +1,3 @@
-import os
 import validators
 import urllib.parse
 
@@ -29,7 +28,7 @@ def getFileUrl(config):
     return defaultBaseUrl
 
 
-def replaceForbiddenValues(startString):
+def replaceForbiddenValues(startString: str):
     endString = startString.replace(" ", "_")
     endString = endString.replace("-", "_")
     endString = endString.replace("–", "_")
@@ -42,6 +41,7 @@ def replaceForbiddenValues(startString):
     endString = endString.replace(")", "")
     endString = endString.replace("[", "")
     endString = endString.replace("]", "")
+    endString = endString.replace(":", "_")
     return endString
 
 
@@ -68,7 +68,7 @@ def objectToRepresentation(obj):
     return stringRepresentation(str(obj))
 
 
-def stringRepresentation(obj):
+def stringRepresentation(obj: str):
     seperateCharacter = '"'
     if "\n" in obj:
         seperateCharacter = '"""'
@@ -77,11 +77,11 @@ def stringRepresentation(obj):
     )
 
 
-def urlRepresentation(obj):
+def urlRepresentation(obj: str):
     return "<{}>".format(obj)
 
 
-def structureValueRefactorer(startString):
+def structureValueRefactorer(startString: str):
     endString = startString.replace("\n", " ")
     endString = endString.replace("\r", " ")
     endString = endString.replace("\\", "/")
@@ -89,6 +89,6 @@ def structureValueRefactorer(startString):
     return endString
 
 
-def formatIdentifier(file):
-    formatted_file = urllib.parse.quote_plus(file)
+def formatIdentifier(file: str):
+    formatted_file = urllib.parse.quote_plus(file, safe="/@&=")
     return formatted_file.replace(".", "_")

@@ -121,31 +121,34 @@ class SemanticMapper(IMapper):
                         )
                     ]
 
-        mappingCollections = self.mappingWrapper(variableSubjects, config)
+        try:
+            mappingCollections = self.mappingWrapper(variableSubjects, config)
 
-        count = 0
-        for variableSubject in variableSubjects:
-            entries = variableSubjects[variableSubject]
-            mappings = mappingCollections[count]
-            for entry in entries:
-                partPredicate = entry[2]
-                if partPredicate in mappings:
-                    vals = mappings[partPredicate]
-                    if vals is not None:
-                        predicate = entry[0]
-                        obj = str(entry[1])
-                        if type(vals) is list:
-                            predicate = vals[0]
-                            obj = vals[1]
-                        else:
-                            predicate = vals
+            count = 0
+            for variableSubject in variableSubjects:
+                entries = variableSubjects[variableSubject]
+                mappings = mappingCollections[count]
+                for entry in entries:
+                    partPredicate = entry[2]
+                    if partPredicate in mappings:
+                        vals = mappings[partPredicate]
+                        if vals is not None:
+                            predicate = entry[0]
+                            obj = str(entry[1])
+                            if type(vals) is list:
+                                predicate = vals[0]
+                                obj = vals[1]
+                            else:
+                                predicate = vals
 
-                        predicate = self.convertStringToRdflibTerm(predicate)
-                        obj = self.convertStringToRdflibTerm(obj)
+                            predicate = self.convertStringToRdflibTerm(predicate)
+                            obj = self.convertStringToRdflibTerm(obj)
 
-                        g.remove((variableSubject, entry[0], entry[1], entry[4]))
-                        entry[4].add((variableSubject, predicate, obj))
-            count += 1
+                            g.remove((variableSubject, entry[0], entry[1], entry[4]))
+                            entry[4].add((variableSubject, predicate, obj))
+                count += 1
+        except requests.exceptions.ConnectionError:
+            log.error("SemanticMapping not running")
 
         self.__applicationProfiles = []
         self.__vocabularies = []
