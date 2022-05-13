@@ -29,37 +29,41 @@ class PikesParser:
         return self.__represent(requests.post(self.__pikesApiPoint, data=payload))
 
     def parse(self, text):
-        if text != None:
-            sentences = sent_tokenize(text)
-            if len(sentences) > self.__pikesBatchSize:
-                log.info(
-                    "Passing the text of "
-                    + str(len(sentences))
-                    + " sentences in batches of "
-                    + str(self.__pikesBatchSize)
-                    + " sentences to Pikes"
-                )
-                count = 0
-                metadata = ""
-                while count + self.__pikesBatchSize < len(sentences):
+        try:
+            if text != None:
+                sentences = sent_tokenize(text)
+                if len(sentences) > self.__pikesBatchSize:
                     log.info(
-                        "Passing "
-                        + str(count)
-                        + " - "
-                        + str(count + self.__pikesBatchSize)
-                        + " to Pikes"
+                        "Passing the text of "
+                        + str(len(sentences))
+                        + " sentences in batches of "
+                        + str(self.__pikesBatchSize)
+                        + " sentences to Pikes"
                     )
-                    batch = sentences[count : count + self.__pikesBatchSize]
-                    count += self.__pikesBatchSize
-                    metadata += "\n" + self.makerequest("\n".join(batch))
-                log.info("Passing the last entries to Pikes")
-                lastBatch = sentences[count:]
-                metadata += "\n" + self.makerequest("\n".join(lastBatch))
-                return metadata
+                    count = 0
+                    metadata = ""
+                    while count + self.__pikesBatchSize < len(sentences):
+                        log.info(
+                            "Passing "
+                            + str(count)
+                            + " - "
+                            + str(count + self.__pikesBatchSize)
+                            + " to Pikes"
+                        )
+                        batch = sentences[count : count + self.__pikesBatchSize]
+                        count += self.__pikesBatchSize
+                        metadata += "\n" + self.makerequest("\n".join(batch))
+                    log.info("Passing the last entries to Pikes")
+                    lastBatch = sentences[count:]
+                    metadata += "\n" + self.makerequest("\n".join(lastBatch))
+                    return metadata
+                else:
+                    return self.makerequest(text)
             else:
-                return self.makerequest(text)
-        else:
-            return None
+                return ""
+        except requests.exceptions.ConnectionError:
+            log.error("Pikes not running")
+            return ""
 
     def parseAndSave(self, text):
         res = self.parse(text)

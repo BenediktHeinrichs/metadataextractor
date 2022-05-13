@@ -52,7 +52,7 @@ def index():
         else:
             fileIdentifier = encoded_words_to_text(file)
         fileName = folder + "\\" + fileIdentifier
-        dirName = os.path.dirname(fileName)
+        dirName = fileName[:fileName.rindex("\\")]
         if not os.path.exists(dirName):
             os.makedirs(dirName)
         request.files[file].save(fileName)
@@ -90,8 +90,9 @@ def version():
 
 
 if __name__ == "__main__":
-    app.run(
-        debug=False,
+    from waitress import serve
+    serve(
+        app,
         host=os.environ.get("METADATAEXTRACTORHOST", "0.0.0.0"),
         port=os.environ.get("METADATAEXTRACTORPORT", 36541),
     )

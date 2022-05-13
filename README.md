@@ -68,3 +68,12 @@ Retrieves the default configuration currently present on the Metadata Extraction
 #### Version (/version) GET
 
 Retrieves the current version of the Metadata Extraction instance.
+
+## Docker
+
+Run the following commands for using this repository with docker (replacing {yourPort}):
+
+```bash
+docker build -t metadata-extractor .
+docker run --publish {yourPort}:36541 metadata-extractor
+```

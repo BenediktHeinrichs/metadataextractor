@@ -39,3 +39,4 @@ google_api_core==1.31.4
 gast==0.5.1
 fonttools==4.29.0
 gensim==4.1.2
+waitress
