@@ -127,6 +127,8 @@ def addMetadataToFileGraph(unformattedIdentifier, config, graphOptions, dataGrap
 
     dataGraph = addPrefix + "type=data&extracted=true"
     metadataGraph = addPrefix + "type=metadata&extracted=true"
+    
+    identifier = identifier.replace("&type=data", "")
 
     trig += "<{}{}{}>".format(getFileGraph(config), identifier, dataGraph if dataGraphUsage else metadataGraph)
     trig += " {\n"

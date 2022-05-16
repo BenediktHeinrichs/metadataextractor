@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import os
-import tempfile
 import uuid
 import shutil
 import re
@@ -15,7 +14,6 @@ setDefaultLogging()
 log = logging.getLogger(__name__)
 
 from MetadataExtractor.pipeline import run_pipeline
-from MetadataExtractor.Util import inputFilter
 from MetadataExtractor import __version__
 
 app = Flask(__name__)
