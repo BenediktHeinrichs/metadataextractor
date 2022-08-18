@@ -52,7 +52,7 @@ class MetadataExtractorWorker(Resource):
         pipelineInput = []
 
         data = dict(request.form)
-        folder = ".\\" + str(uuid.uuid4())
+        folder = os.path.join(str(os.getcwd()), str(uuid.uuid4()))
         if not os.path.exists(folder):
             os.makedirs(folder)
         for file in request.files:
@@ -60,8 +60,8 @@ class MetadataExtractorWorker(Resource):
                 fileIdentifier = request.files[file].filename
             else:
                 fileIdentifier = encoded_words_to_text(file)
-            fileName = folder + "\\" + fileIdentifier
-            dirName = fileName[:fileName.rindex("\\")]
+            fileName = os.path.join(folder, fileIdentifier)
+            dirName = fileName[:fileName.rindex(os.sep)]
             if not os.path.exists(dirName):
                 os.makedirs(dirName)
             request.files[file].save(fileName)
