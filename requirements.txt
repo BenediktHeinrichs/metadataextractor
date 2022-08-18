@@ -30,6 +30,7 @@ pydub>=0.25.1
 PyMuPDF>=1.19.5
 nltk>=3.7
 flask>=2.0.1
+flask-restx>=0.5.1
 pygments>=2.10.0
 python-magic==0.4.25;sys_platform!='win32'
 python-magic-bin==0.4.14;sys_platform=='win32'

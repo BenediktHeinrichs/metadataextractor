@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
+from flask_restx import Api, Resource
+from werkzeug.datastructures import FileStorage
 import os
-import tempfile
 import uuid
 import shutil
 import re
@@ -15,11 +16,12 @@ setDefaultLogging()
 log = logging.getLogger(__name__)
 
 from MetadataExtractor.pipeline import run_pipeline
-from MetadataExtractor.Util import inputFilter
 from MetadataExtractor import __version__
 
 app = Flask(__name__)
-
+api = Api(app, version=__version__, title='Metadata Extractor API',
+    description='This API extracts RDF triples from files',
+)
 
 def encoded_words_to_text(encoded_words):
     encoded_word_regex = r"=\?{1}(.+)\?{1}([B|Q])\?{1}(.+)\?{1}="
@@ -36,58 +38,66 @@ def encoded_words_to_text(encoded_words):
             byte_string.decode(charset)
     return encoded_words
 
+parser = api.parser()
+parser.add_argument('identifier', type=str, help='File Identifier', location='form')
+parser.add_argument('config', type=object, help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)', location='form')
+parser.add_argument('files', type=FileStorage, location='files')
 
-@app.route("/", methods=["POST"])
-def index():
+@api.route("/")
+class MetadataExtractorWorker(Resource):
+    '''Performs the Metadata Extraction'''
+    @api.expect(parser)
+    def post(self):
 
-    pipelineInput = []
+        pipelineInput = []
 
-    data = dict(request.form)
-    folder = os.path.join(str(os.getcwd()), str(uuid.uuid4()))
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-    for file in request.files:
-        if file == None:
-            fileIdentifier = request.files[file].filename
+        data = dict(request.form)
+        folder = ".\\" + str(uuid.uuid4())
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        for file in request.files:
+            if file == None:
+                fileIdentifier = request.files[file].filename
+            else:
+                fileIdentifier = encoded_words_to_text(file)
+            fileName = folder + "\\" + fileIdentifier
+            dirName = fileName[:fileName.rindex("\\")]
+            if not os.path.exists(dirName):
+                os.makedirs(dirName)
+            request.files[file].save(fileName)
+            if "identifier" in data:
+                if isinstance(data["identifier"], str):
+                    data["identifier"] = json.loads(data["identifier"])
+                identifier = data["identifier"][fileIdentifier]
+            else:
+                identifier = None
+            pipelineInput.append({"identifier": identifier, "file": fileName})
+
+        if "config" in data:
+            config = data["config"]
         else:
-            fileIdentifier = encoded_words_to_text(file)
-        fileName = os.path.join(folder, fileIdentifier)
-        dirName = fileName[:fileName.rindex(os.sep)]
-        if not os.path.exists(dirName):
-            os.makedirs(dirName)
-        request.files[file].save(fileName)
-        if "identifier" in data:
-            if isinstance(data["identifier"], str):
-                data["identifier"] = json.loads(data["identifier"])
-            identifier = data["identifier"][fileIdentifier]
-        else:
-            identifier = None
-        pipelineInput.append({"identifier": identifier, "file": fileName})
+            config = getDefaultConfig()
+        if "Settings" not in config:
+            config = getDefaultConfig()
+        config["Settings"]["Storage"] = ["ReturnAdapter"]
 
-    if "config" in data:
-        config = data["config"]
-    else:
-        config = getDefaultConfig()
-    if "Settings" not in config:
-        config = getDefaultConfig()
-    config["Settings"]["Storage"] = ["ReturnAdapter"]
+        iterativeList = run_pipeline(pipelineInput, config)
 
-    iterativeList = run_pipeline(pipelineInput, config)
+        shutil.rmtree(folder, ignore_errors=True)
 
-    shutil.rmtree(folder, ignore_errors=True)
+        return jsonify(iterativeList)
 
-    return jsonify(iterativeList)
+@api.route("/defaultConfig")
+class ConfigWorker(Resource):
+    '''Returns the default configuration of the Metadata Extractor'''
+    def get(self):
+        return jsonify({"config": getDefaultConfig()})
 
-
-@app.route("/defaultConfig", methods=["GET"])
-def defaultConfig():
-    return jsonify({"config": getDefaultConfig()})
-
-
-@app.route("/version", methods=["GET"])
-def version():
-    return jsonify({"version": __version__})
-
+@api.route("/version")
+class VersionWorker(Resource):
+    '''Returns the current version of the Metadata Extractor'''
+    def get(self):
+        return jsonify({"version": __version__})
 
 if __name__ == "__main__":
     from waitress import serve
