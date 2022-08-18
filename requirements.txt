@@ -29,6 +29,7 @@ wave>=0.0.2
 pydub>=0.25.1
 PyMuPDF>=1.19.5
 nltk>=3.7
+werkzeug==2.1.2
 flask>=2.0.1
 flask-restx>=0.5.1
 pygments>=2.10.0
