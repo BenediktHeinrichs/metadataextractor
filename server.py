@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_restx import Api, Resource
+from flask_restx import Api, Resource, fields
 from werkzeug.datastructures import FileStorage
 import os
 import uuid
@@ -43,10 +43,23 @@ parser.add_argument('identifier', type=str, help='File Identifier', location='fo
 parser.add_argument('config', type=object, help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)', location='form')
 parser.add_argument('files', type=FileStorage, location='files')
 
+metadataOutput = api.model('Metadata Output', { 
+    "metadata": fields.String(), 
+    "text": fields.String() 
+})
+
+mainModel = api.model('Metadata Extraction Result', {
+    "identifier1": fields.List(fields.Nested(metadataOutput)),
+    "identifier2": fields.List(fields.Nested(metadataOutput)),
+    "identifier3": fields.List(fields.Nested(metadataOutput)),
+    "...": fields.List(fields.Nested(metadataOutput)),
+})
+
 @api.route("/")
 class MetadataExtractorWorker(Resource):
     '''Performs the Metadata Extraction'''
     @api.expect(parser)
+    @api.response(200, 'Success', [mainModel])
     def post(self):
 
         pipelineInput = []
@@ -93,9 +106,14 @@ class ConfigWorker(Resource):
     def get(self):
         return jsonify({"config": getDefaultConfig()})
 
+versionModel = api.model('Version', {
+    "version": fields.String()
+})
+
 @api.route("/version")
 class VersionWorker(Resource):
     '''Returns the current version of the Metadata Extractor'''
+    @api.response(200, 'Success', versionModel)
     def get(self):
         return jsonify({"version": __version__})
 
