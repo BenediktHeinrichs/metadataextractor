@@ -8,6 +8,7 @@ import re
 import base64
 import quopri
 import json
+import filedate
 import logging
 from defaultConfigs import setDefaultLogging, getDefaultConfig
 
@@ -39,9 +40,11 @@ def encoded_words_to_text(encoded_words):
     return encoded_words
 
 parser = api.parser()
-parser.add_argument('identifier', type=str, help='File Identifier', location='form')
+parser.add_argument('identifier', type=str, help='File Identifier JSON ({ "filename": "identifier" })', location='form')
 parser.add_argument('config', type=object, help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)', location='form')
-parser.add_argument('files', type=FileStorage, location='files')
+parser.add_argument('creation_date', type=str, help='Creation Date JSON ({ "filename": "creation_date" })', location='form')
+parser.add_argument('modification_date', type=str, help='Modification Date JSON ({ "filename": "modification_date" })', location='form')
+parser.add_argument('files', required=True, type=FileStorage, location='files')
 
 metadataOutput = api.model('Metadata Output', { 
     "metadata": fields.String(), 
@@ -78,12 +81,37 @@ class MetadataExtractorWorker(Resource):
             if not os.path.exists(dirName):
                 os.makedirs(dirName)
             request.files[file].save(fileName)
+            
+            file_date = filedate.File(fileName)
+            get_file_date = file_date.get()
+
             if "identifier" in data:
                 if isinstance(data["identifier"], str):
                     data["identifier"] = json.loads(data["identifier"])
                 identifier = data["identifier"][fileIdentifier]
             else:
                 identifier = None
+
+            if "creation_date" in data:
+                if isinstance(data["creation_date"], str):
+                    data["creation_date"] = json.loads(data["creation_date"])
+                creation_date = data["creation_date"][fileIdentifier]
+            else:
+                creation_date = get_file_date["created"]
+
+            if "modification_date" in data:
+                if isinstance(data["modification_date"], str):
+                    data["modification_date"] = json.loads(data["modification_date"])
+                modification_date = data["modification_date"][fileIdentifier]
+            else:
+                modification_date = get_file_date["modified"]
+
+            file_date.set(
+                created=creation_date,
+                modified=modification_date,
+                accessed=get_file_date["accessed"]
+            )
+
             pipelineInput.append({"identifier": identifier, "file": fileName})
 
         if "config" in data:
