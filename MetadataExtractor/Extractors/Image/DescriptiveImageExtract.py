@@ -1,4 +1,3 @@
-from msilib.schema import Error
 from PIL import Image
 from PIL.ExifTags import TAGS
 import logging

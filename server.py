@@ -46,23 +46,17 @@ parser.add_argument('creation_date', type=str, help='Creation Date JSON ({ "file
 parser.add_argument('modification_date', type=str, help='Modification Date JSON ({ "filename": "modification_date" })', location='form')
 parser.add_argument('files', required=True, type=FileStorage, location='files')
 
-metadataOutput = api.model('Metadata Output', { 
-    "metadata": fields.String(), 
-    "text": fields.String() 
-})
-
-mainModel = api.model('Metadata Extraction Result', {
-    "identifier1": fields.List(fields.Nested(metadataOutput)),
-    "identifier2": fields.List(fields.Nested(metadataOutput)),
-    "identifier3": fields.List(fields.Nested(metadataOutput)),
-    "...": fields.List(fields.Nested(metadataOutput)),
+metadataOutput = api.model('MetadataOutput', {
+    "identifier": fields.String(),
+    "metadata": fields.String(),
+    "text": fields.String()
 })
 
 @api.route("/")
 class MetadataExtractorWorker(Resource):
     '''Performs the Metadata Extraction'''
     @api.expect(parser)
-    @api.response(200, 'Success', [mainModel])
+    @api.response(200, 'Success', [metadataOutput])
     def post(self):
 
         pipelineInput = []
@@ -72,10 +66,7 @@ class MetadataExtractorWorker(Resource):
         if not os.path.exists(folder):
             os.makedirs(folder)
         for file in request.files:
-            if file == None:
-                fileIdentifier = request.files[file].filename
-            else:
-                fileIdentifier = encoded_words_to_text(file)
+            fileIdentifier = request.files[file].filename
             fileName = os.path.join(folder, fileIdentifier)
             dirName = fileName[:fileName.rindex(os.sep)]
             if not os.path.exists(dirName):

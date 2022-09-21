@@ -91,9 +91,8 @@ class MetadataHandler:
         for metadataMapperImplementation in self.__metadataMapperImplementations:
             metadata = metadataMapperImplementation.map(metadata)
         fileInfo = self.__fileInfo
-        returnIterable = {fileInfo["identifier"]: []}
+        returnObject = { "identifier": fileInfo["identifier"] }
         for storageImplementation in self.__storageImplementations:
-            returnObject = {}
             returnObject["metadata"] = storageImplementation.complete_metadata(
                 metadata, fileInfo
             )
@@ -101,8 +100,7 @@ class MetadataHandler:
                 returnObject["text"] = storageImplementation.complete_text(
                     content, fileInfo
                 )
-            returnIterable[fileInfo["identifier"]].append(returnObject)
-        return returnIterable
+        return returnObject
 
 
 # This method handles the MetadataExtractor pipeline
@@ -120,7 +118,7 @@ def run_pipeline(fileInfos: list, config):
     for fileInfo in fileInfos:
 
         if fileInfo["identifier"] == None:
-            fileInfo["identifier"] = str(uuid.uuid4())
+            fileInfo["identifier"] = str(uuid.uuid4()) + "/" + fileInfo["file"][fileInfo["file"].rindex(os.sep)+1:]
 
         log.info('Starting pipeline on "' + str(fileInfo) + '".')
 
@@ -160,6 +158,8 @@ def run_pipeline(fileInfos: list, config):
             generic_extraction["metadata"]["Content-Type"] = mime.from_file(
                 fileInfo["file"]
             )
+        if type(generic_extraction["metadata"]["Content-Type"]) is list:
+            generic_extraction["metadata"]["Content-Type"] = generic_extraction["metadata"]["Content-Type"][0]
         mimetype = generic_extraction["metadata"]["Content-Type"].lower()
         mimetype = mimeTypeFixer.fixMimeType(mimetype)
         log.info("Mimetype: " + repr(mimetype))
