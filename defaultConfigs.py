@@ -71,6 +71,7 @@ def getDefaultConfig():
             "Triples": [],
             "Data": ["Hdf5Extract"],
             "Image": [
+                "DescriptiveImageExtract",
                 "ObjectExtract",
                 "TesseractExtract",
             ],

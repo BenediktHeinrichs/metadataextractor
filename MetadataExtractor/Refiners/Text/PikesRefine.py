@@ -21,6 +21,11 @@ class PikesRefine(IRefine):
         self, metadata, fileInfo, metadataformat="trig", plottingGraph=False, skip=True
     ):
         if not skip and metadata and not metadata.isspace():
+
+            if "The request payload size exceeds the max post size limitation" in metadata:
+                log.info("Too big for Pikes.")
+                return "", metadataformat
+
             log.info("Refining Pikes Metadata.")
 
             fact = Namespace(
