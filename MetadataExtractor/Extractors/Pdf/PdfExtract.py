@@ -19,15 +19,15 @@ class PdfExtract(IPdfExtract):
         texts = [""]
         finalMetadata = ""
         for i in range(len(doc)):
-            for img in doc.getPageImageList(i):
+            for img in doc.get_page_images(i):
                 xref = img[0]
                 pix = fitz.Pixmap(doc, xref)
                 outImage = "p%s-%s.png" % (i, xref)
                 if pix.n - pix.alpha < 4:  # this is GRAY or RGB
-                    pix.writePNG(outImage)
+                    pix.save(outImage)
                 else:  # CMYK: convert to RGB first
                     pix1 = fitz.Pixmap(fitz.csRGB, pix)
-                    pix1.writePNG(outImage)
+                    pix1.save(outImage)
                     pix1 = None
                 pix = None
 
