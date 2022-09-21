@@ -4,6 +4,7 @@ include:
       - /docker-runner.yml
 
 stages:
+  - build
   - container
 
 .prepare:
@@ -24,6 +25,8 @@ build-branch:
     paths:
       - dist
     expire_in: 1 yrs
+  rules:
+    - when: manual
 
 container:
   stage: container
