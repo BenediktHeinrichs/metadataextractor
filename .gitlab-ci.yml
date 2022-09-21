@@ -5,6 +5,7 @@ include:
 
 stages:
   - build
+  - container
 
 .prepare:
   image: tobix/pywine
@@ -24,3 +25,21 @@ build-branch:
     paths:
       - dist
     expire_in: 1 yrs
+
+container:
+  stage: container
+  tags:
+    - runner:docker
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  variables:
+    # variables can be overridden by extending the task
+    # name of the container, uses project name (+path) by default
+    CONTAINER_LABEL: latest
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY/$CI_PROJECT_PATH:$CONTAINER_LABEL
+  rules:
+    - when: manual
