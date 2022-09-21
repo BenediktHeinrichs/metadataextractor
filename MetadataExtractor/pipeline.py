@@ -108,7 +108,7 @@ class MetadataHandler:
 # This method handles the MetadataExtractor pipeline
 # It expects a file array input and a config file
 # An example of a config object can be found in "pipeline_runner.py"
-def run_pipeline(fileInfos, config):
+def run_pipeline(fileInfos: list, config):
 
     importDependencies(config)
 
@@ -166,7 +166,7 @@ def run_pipeline(fileInfos, config):
         # Store MimeType
         metadataHandler.refine_and_store_metadata(
             metadataCreation.addMetadataToFileGraph(
-                fileInfo["identifier"],
+                fileInfo,
                 config,
                 {
                     "additionalPrefixes": [

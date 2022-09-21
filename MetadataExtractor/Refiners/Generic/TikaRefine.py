@@ -68,7 +68,7 @@ class TikaRefine(IRefine):
         values.append({"predicate": "dcterms:modified", "object": datetime.datetime.fromtimestamp(file_stats.st_mtime)})
 
         trig = metadataCreation.addMetadataToFileGraph(
-            fileInfo["identifier"],
+            fileInfo,
             self._IRefine__config,
             {
                 "additionalPrefixes": [

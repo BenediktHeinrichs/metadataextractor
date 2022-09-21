@@ -39,7 +39,7 @@ def createGraphForFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False
         referencePredicate = "dcterms:hasPart"
 
     trig += addMetadataToFileGraph(
-        fileInfo["identifier"],
+        fileInfo,
         config,
         {
             "values": [
@@ -94,7 +94,7 @@ def addEntryToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
         referencePredicate = "rdf:describedby"
 
     trig += addMetadataToFileGraph(
-        fileInfo["identifier"],
+        fileInfo,
         config,
         {
             "values": [
@@ -110,7 +110,7 @@ def addEntryToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
     return trig
 
 
-def addMetadataToFileGraph(unformattedIdentifier, config, graphOptions, dataGraphUsage=False):
+def addMetadataToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
     values = graphOptions["values"]
 
     additionalPrefixes = []
@@ -119,18 +119,25 @@ def addMetadataToFileGraph(unformattedIdentifier, config, graphOptions, dataGrap
 
     trig = getPrefixes(additionalPrefixes, config)
 
-    identifier = metadataFormatter.formatIdentifier(unformattedIdentifier)
+    identifier = metadataFormatter.formatIdentifier(fileInfo["identifier"])
 
     addPrefix = "@"
     if "@" in identifier:
         addPrefix = "&"
 
-    dataGraph = addPrefix + "type=data&extracted=true"
-    metadataGraph = addPrefix + "type=metadata&extracted=true"
+    dataGraph = addPrefix + "type=data"
+    metadataGraph = addPrefix + "type=metadata"
+
+    if "version" in fileInfo:
+        dataGraph += "&version=" + fileInfo["version"]
+        metadataGraph += "&version=" + fileInfo["version"]
+
+    dataGraph += "&extracted=true"
+    metadataGraph += "&extracted=true"
     
     identifier = identifier.replace("&type=data", "")
 
-    trig += "<{}{}{}>".format(getFileGraph(config), identifier, dataGraph if dataGraphUsage else metadataGraph)
+    trig += "<{}{}/{}>".format(getFileGraph(config), identifier, dataGraph if dataGraphUsage else metadataGraph)
     trig += " {\n"
 
     subjectString = "<{}{}>".format(getFileGraph(config), identifier)

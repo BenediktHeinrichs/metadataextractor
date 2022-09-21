@@ -51,7 +51,7 @@ class DescriptiveImageExtract(IImageExtract):
             metadata = [{ "predicate": key, "object": value} for key, value in metadata.items() if value != None and value != ""]
                 
             trig += metadataCreation.addMetadataToFileGraph(
-                fileInfo["identifier"],
+                fileInfo,
                 self._IExtract__config,
                 {
                     "additionalPrefixes": [

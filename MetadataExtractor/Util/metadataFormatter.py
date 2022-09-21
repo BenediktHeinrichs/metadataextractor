@@ -20,10 +20,6 @@ def getFileUrl(config):
         or "Settings" in config["Values"]
         or "FileUrl" in config["Values"]["Settings"]
     ):
-        if "HandlePrefix" in config["Values"]["Settings"]:
-            return config["Values"]["Settings"]["FileUrl"].replace(
-                "{HandlePrefix}", config["Values"]["Settings"]["HandlePrefix"]
-            )
         return config["Values"]["Settings"]["FileUrl"]
     return defaultBaseUrl
 
@@ -90,5 +86,5 @@ def structureValueRefactorer(startString: str):
 
 
 def formatIdentifier(file: str):
-    formatted_file = urllib.parse.quote_plus(file, safe="/@&=")
-    return formatted_file.replace(".", "_")
+    formatted_file = urllib.parse.quote(file, safe="/@&=")
+    return formatted_file

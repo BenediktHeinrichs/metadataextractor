@@ -102,7 +102,7 @@ def getDefaultConfig():
         },
         "Values": {
             "Generic": {
-                "MagicMimeType": True,
+                "MagicMimeType": False,
                 "TikaPdfImageExtraction": False,
                 "TikaTimeout": 180,
             },
@@ -130,8 +130,7 @@ def getDefaultConfig():
                 "StoreContent": True,
                 "OutputPath": "output",
                 "BaseUrl": "https://purl.org/coscine",
-                "FileUrl": "https://hdl.handle.net/{HandlePrefix}/",
-                "HandlePrefix": "21.11102",
+                "FileUrl": "https://purl.org/coscine/resources/",
                 "MappingService": os.environ.get("SEMANTICMAPPERPROTOCOL", "http")
                 + "://"
                 + os.environ.get("SEMANTICMAPPERHOST", "127.0.0.1")

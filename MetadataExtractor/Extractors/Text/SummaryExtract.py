@@ -23,7 +23,7 @@ class SummaryExtract(ITextExtract):
             formattedSummary = gensim_summary.replace("\\", "").replace('"""', "'''")
 
             trig = metadataCreation.addMetadataToFileGraph(
-                fileInfo["identifier"],
+                fileInfo,
                 self._IExtract__config,
                 {
                     "additionalPrefixes": [

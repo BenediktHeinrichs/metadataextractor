@@ -46,7 +46,7 @@ class ObjectExtract(IImageExtract):
                 )
 
                 trig += metadataCreation.addMetadataToFileGraph(
-                    rootFileInfo["identifier"],
+                    rootFileInfo,
                     config,
                     {
                         "values": [
@@ -62,7 +62,7 @@ class ObjectExtract(IImageExtract):
 
                 if frameNumber != False:
                     trig += metadataCreation.addMetadataToFileGraph(
-                        fileInfo["identifier"],
+                        fileInfo,
                         self._IExtract__config,
                         {
                             "additionalPrefixes": [
@@ -88,7 +88,7 @@ class ObjectExtract(IImageExtract):
                     metadataFormatter.replaceForbiddenValues(elemn),
                 )
                 trig += metadataCreation.addMetadataToFileGraph(
-                    fileInfo["identifier"],
+                    fileInfo,
                     self._IExtract__config,
                     {
                         "additionalPrefixes": [

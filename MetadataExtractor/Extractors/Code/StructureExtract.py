@@ -37,7 +37,7 @@ class StructureExtract(ICodeExtract):
         return (
             "",
             metadataCreation.addMetadataToFileGraph(
-                fileInfo["identifier"],
+                fileInfo,
                 self._IExtract__config,
                 {
                     "additionalPrefixes": [

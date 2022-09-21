@@ -21,7 +21,7 @@ class FileAdapter(IAdapter):
     def complete(self, text, fileInfo, extension=".trig"):
         if not os.path.exists(self.__outputPath):
             os.makedirs(self.__outputPath)
-        textFile = self.__outputPath + "/" + fileInfo["identifier"] + extension
+        textFile = self.__outputPath + "/" + fileInfo["identifier"].replace("/", "%2F") + extension
         log.info('Storing text to "' + textFile + '".')
         with open(textFile, "w", encoding="utf-8") as text_file:
             text_file.write(text)

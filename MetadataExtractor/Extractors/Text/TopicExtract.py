@@ -111,7 +111,7 @@ class TopicExtract(ITextExtract):
                     fileInfo, config, graphOptions
                 )
                 metadata += metadataCreation.addMetadataToFileGraph(
-                    fileInfo["identifier"],
+                    fileInfo,
                     config,
                     {
                         "additionalPrefixes": [
