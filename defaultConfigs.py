@@ -114,7 +114,7 @@ def getDefaultConfig():
                 "Google_Cloud_Bucket_Name": "metadataextractionaudios",
             },
             "Text": {
-                "PikesApiPoint": "http://pikes.westeurope.cloudapp.azure.com/text2rdf",
+                "PikesApiPoint": os.environ.get("PIKESAPIENDPOINT", "http://pikes.westeurope.cloudapp.azure.com/text2rdf"),
                 "PikesBatchSize": "50",
                 "PikesMergeDefinitions": True,
                 "RefinePikesAutomatically": True,
