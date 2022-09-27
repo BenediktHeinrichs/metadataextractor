@@ -7,6 +7,10 @@ This repository provides the source code to the MetadataExtractor project and he
 1) Download the server .jar from here: [Tika Downloadsite](https://tika.apache.org/download.html)
 2) Execute the tika server with `java -jar {tika-server-jar}`
 
+## Development
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://git.rwth-aachen.de/coscine/research/metadataextractor)
+
 ## For installing the dependencies
 
 ```bash
