@@ -26,7 +26,7 @@ class PikesParser:
 
     def makerequest(self, text):
         payload = {"text": text.replace(u"\u000c", "")}
-        return self.__represent(requests.post(self.__pikesApiPoint, data=payload))
+        return self.__represent(requests.post(self.__pikesApiPoint, data=payload, verify=False))
 
     def parse(self, text):
         try:
@@ -61,8 +61,8 @@ class PikesParser:
                     return self.makerequest(text)
             else:
                 return ""
-        except requests.exceptions.ConnectionError:
-            log.error("Pikes not running")
+        except requests.exceptions.ConnectionError as err:
+            log.error("Pikes not running: {0}".format(err))
             return ""
 
     def parseAndSave(self, text):
