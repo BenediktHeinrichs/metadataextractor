@@ -97,7 +97,8 @@ class PikesRefine(IRefine):
 
             # Add a fact graph and remove the indiviual fact graphs
             factG = ConjunctiveGraph()
-            factgraph = factG.get_context(fact[fileIdentifier])
+            factIdentifier = fact[fileIdentifier]
+            factgraph = factG.get_context(factIdentifier + "/@type=metadata&extracted=true")
             for context in list(g.contexts()):
                 if "fact:" in context.identifier and len(context.all_nodes()) > 0:
                     for (subject, predicate, obj) in context:
