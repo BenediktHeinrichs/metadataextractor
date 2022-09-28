@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_restx import Api, Resource, fields
+from flask_restx import Api, Resource, fields, inputs
 from werkzeug.datastructures import FileStorage
 import os
 import uuid
@@ -40,11 +40,11 @@ def encoded_words_to_text(encoded_words):
     return encoded_words
 
 parser = api.parser()
-parser.add_argument('identifier', type=str, help='File Identifier JSON ({ "filename": "identifier" })', location='form')
+parser.add_argument('identifier', type=str, help='File Identifier', location='form')
 parser.add_argument('config', type=object, help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)', location='form')
-parser.add_argument('creation_date', type=str, help='Creation Date JSON ({ "filename": "creation_date" })', location='form')
-parser.add_argument('modification_date', type=str, help='Modification Date JSON ({ "filename": "modification_date" })', location='form')
-parser.add_argument('files', required=True, type=FileStorage, location='files')
+parser.add_argument('creation_date', type=inputs.datetime, help='Creation Date (Time) (e.g. "2022-09-15T09:27:17.3550000+02:00")', location='form')
+parser.add_argument('modification_date', type=inputs.datetime, help='Modification Date (Time) (e.g. "2022-09-15T09:27:17.3550000+02:00")', location='form')
+parser.add_argument('file', required=True, type=FileStorage, location='files')
 
 metadataOutput = api.model('MetadataOutput', {
     "identifier": fields.String(),
@@ -57,6 +57,7 @@ class MetadataExtractorWorker(Resource):
     '''Performs the Metadata Extraction'''
     @api.expect(parser)
     @api.response(200, 'Success', [metadataOutput])
+    @api.response(400, 'Bad Request')
     def post(self):
 
         pipelineInput = []
@@ -65,35 +66,30 @@ class MetadataExtractorWorker(Resource):
         folder = os.path.join(str(os.getcwd()), str(uuid.uuid4()))
         if not os.path.exists(folder):
             os.makedirs(folder)
-        for file in request.files:
-            fileIdentifier = request.files[file].filename
+        
+        if 'file' in request.files:
+            fileIdentifier = request.files['file'].filename
             fileName = os.path.join(folder, fileIdentifier)
             dirName = fileName[:fileName.rindex(os.sep)]
             if not os.path.exists(dirName):
                 os.makedirs(dirName)
-            request.files[file].save(fileName)
+            request.files['file'].save(fileName)
             
             file_date = filedate.File(fileName)
             get_file_date = file_date.get()
 
             if "identifier" in data:
-                if isinstance(data["identifier"], str):
-                    data["identifier"] = json.loads(data["identifier"])
-                identifier = data["identifier"][fileIdentifier]
+                identifier = data["identifier"]
             else:
                 identifier = None
 
             if "creation_date" in data:
-                if isinstance(data["creation_date"], str):
-                    data["creation_date"] = json.loads(data["creation_date"])
-                creation_date = data["creation_date"][fileIdentifier]
+                creation_date = data["creation_date"]
             else:
                 creation_date = get_file_date["created"]
 
             if "modification_date" in data:
-                if isinstance(data["modification_date"], str):
-                    data["modification_date"] = json.loads(data["modification_date"])
-                modification_date = data["modification_date"][fileIdentifier]
+                modification_date = data["modification_date"]
             else:
                 modification_date = get_file_date["modified"]
 
@@ -104,6 +100,8 @@ class MetadataExtractorWorker(Resource):
             )
 
             pipelineInput.append({"identifier": identifier, "file": fileName})
+        else:
+            return "No file sent", 400
 
         if "config" in data:
             config = data["config"]
