@@ -20,6 +20,7 @@ from MetadataExtractor.pipeline import run_pipeline
 from MetadataExtractor import __version__
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = os.environ.get("MAX_CONTENT_LENGTH", 16 * 1000 * 1000)
 api = Api(app, version=__version__, title='Metadata Extractor API',
     description='This API extracts RDF triples from files',
 )
@@ -58,6 +59,7 @@ class MetadataExtractorWorker(Resource):
     @api.expect(parser)
     @api.response(200, 'Success', [metadataOutput])
     @api.response(400, 'Bad Request')
+    @api.response(413, 'Request Entity Too Large (' + str(app.config['MAX_CONTENT_LENGTH']) + ' maximum)')
     def post(self):
 
         pipelineInput = []
