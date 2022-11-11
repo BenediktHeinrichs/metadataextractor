@@ -20,7 +20,7 @@ class TikaRefine(IRefine):
             "File_Modified_Date": "dcterms:modified",
         }
 
-        skippedValues = ["File_Name"]
+        skippedValues = ["File_Name", "X_Parsed_By", "X_TIKA_content_handler", "X_TIKA_embedded_depth", "X_TIKA_parse_time_millis"]
 
         values = []
         
