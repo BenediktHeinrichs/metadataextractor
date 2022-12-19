@@ -54,7 +54,7 @@ class DescriptiveImageExtract(IImageExtract):
                 self._IExtract__config,
                 {
                     "additionalPrefixes": [
-                        "@prefix ebucore: <https://www.ebu.ch/metadata/ontologies/ebucore/ebucore#>",
+                        "@prefix ebucore: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#>",
                         "@prefix {}: <{}/ontologies/{}#>".format(
                             ontology,
                             metadataFormatter.getBaseUrl(config),
