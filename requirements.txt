@@ -45,3 +45,5 @@ waitress
 filedate==2.0
 h5py==3.7.0
 protobuf==3.20.*
+flowio==1.1.1
+flowkit==1.0.0

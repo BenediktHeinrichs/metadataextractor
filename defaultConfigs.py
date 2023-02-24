@@ -69,7 +69,7 @@ def getDefaultConfig():
                 #"SummaryExtract",
             ],
             "Triples": [],
-            "Data": ["Hdf5Extract"],
+            "Data": ["FcsExtract", "Hdf5Extract"],
             "Image": [
                 "DescriptiveImageExtract",
                 "ObjectExtract",
@@ -114,7 +114,7 @@ def getDefaultConfig():
                 "Google_Cloud_Bucket_Name": "metadataextractionaudios",
             },
             "Text": {
-                "PikesApiPoint": os.environ.get("PIKESAPIENDPOINT", "http://pikes.westeurope.cloudapp.azure.com/text2rdf"),
+                "PikesApiPoint": os.environ.get("PIKESAPIENDPOINT", "https://knowledgestore2.fbk.eu/pikes-demo/api/text2rdf"),
                 "PikesBatchSize": "50",
                 "PikesMergeDefinitions": True,
                 "RefinePikesAutomatically": True,

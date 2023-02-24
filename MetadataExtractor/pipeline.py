@@ -161,7 +161,10 @@ def run_pipeline(fileInfos: list, config):
         if type(generic_extraction["metadata"]["Content-Type"]) is list:
             generic_extraction["metadata"]["Content-Type"] = generic_extraction["metadata"]["Content-Type"][0]
         mimetype = generic_extraction["metadata"]["Content-Type"].lower()
-        mimetype = mimeTypeFixer.fixMimeType(mimetype)
+        mimetype = mimeTypeFixer.fixMimeType(
+            mimetype,
+            os.path.splitext(fileInfo["file"])[1]
+        )
         log.info("Mimetype: " + repr(mimetype))
         # Store MimeType
         metadataHandler.refine_and_store_metadata(
