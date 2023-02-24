@@ -42,9 +42,18 @@ class DescriptiveImageExtract(IImageExtract):
                 # get the tag name, instead of human unreadable tag id
                 tag = TAGS.get(tag_id, tag_id)
                 data = exifdata.get(tag_id)
+                
                 # decode bytes 
                 if isinstance(data, bytes):
                     data = data.decode(errors='ignore')
+
+                if isinstance(data, str) and '\n' in data and '=' in data:
+                    for line in data.split('\n'):
+                        if "\x01" not in line and "\x17" not in line and "=" in line:
+                            kvs = line.split('=')
+                            metadata["image:" + str(kvs[0])] = kvs[1]
+                    continue
+                
                 metadata["image:" + str(tag)] = data
 
             metadata = [{ "predicate": key, "object": value} for key, value in metadata.items() if value != None and value != ""]
