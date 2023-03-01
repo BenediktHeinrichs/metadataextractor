@@ -14,7 +14,7 @@ import os
 from .ITextExtract import ITextExtract
 
 
-class TopicExtract(ITextExtract):
+class DetailedTopicExtract(ITextExtract):
 
     # Helper function
     def print_topics(self, model, vectorizer, number_words):
@@ -79,6 +79,10 @@ class TopicExtract(ITextExtract):
                     str(uuid.uuid4()) + "_" + str(topic_idx + 1)
                 )
 
+                values = []
+                values.append(
+                    {"predicate": "a", "object": "http://xmlns.com/foaf/0.1/topic"}
+                )
                 rootValues = []
                 for word, topicRelevancy in [
                     (words[i], topic[i])
@@ -88,8 +92,23 @@ class TopicExtract(ITextExtract):
                     wordEntry = "{}/ontologies/{}/attributes#{}".format(
                         metadataFormatter.getBaseUrl(config), ontology, formattedWord
                     )
+                    values.append(
+                        {
+                            "subject": wordEntry,
+                            "predicate": "rdf:value",
+                            "object": topicRelevancy,
+                        }
+                    )
                     rootValues.append({"predicate": "topic:about", "object": wordEntry})
 
+                graphOptions = {
+                    "identifier": fileInfo["identifier"] + "/" + topicIdentifier,
+                    "ontology": ontology,
+                    "values": values,
+                }
+                metadata += metadataCreation.createGraphForFileGraph(
+                    fileInfo, config, graphOptions
+                )
                 metadata += metadataCreation.addMetadataToFileGraph(
                     fileInfo,
                     config,

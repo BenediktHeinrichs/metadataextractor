@@ -64,7 +64,7 @@ def getDefaultConfig():
         "Extractors": {
             "Generic": ["TikaExtract"],
             "Text": [
-                #"TopicExtract",
+                "TopicExtract",
                 "PikesExtract",
                 #"SummaryExtract",
             ],
