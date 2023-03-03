@@ -51,7 +51,7 @@ class DescriptiveImageExtract(IImageExtract):
                     for line in data.split('\n'):
                         if "\x01" not in line and "\x17" not in line and "=" in line:
                             kvs = line.split('=')
-                            metadata["image:" + str(kvs[0])] = kvs[1]
+                            metadata["image:" + str(metadataFormatter.replaceForbiddenValues(kvs[0]))] = kvs[1]
                     continue
                 
                 metadata["image:" + str(tag)] = data
