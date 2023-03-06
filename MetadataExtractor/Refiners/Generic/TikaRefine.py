@@ -15,7 +15,10 @@ class TikaRefine(IRefine):
 
         predicatemap = {
             "resourceName": "dcterms:identifier",
+            "Content_Length": "dcat:byteSize",
             "Content_Type": "dcterms:format",
+            "Image_Height": "exif:ImageLength",
+            "Image_Width": "exif:ImageWidth",
             "File_Size": "dcat:byteSize",
             "File_Modified_Date": "dcterms:modified",
         }
@@ -46,7 +49,16 @@ class TikaRefine(IRefine):
                         currentVal.find("'") + 1 : currentVal.rfind("'")
                     ]
 
-                if "dc:" in refinedKey or "dcterms:" in refinedKey:
+                if "dc_" in refinedKey or "dcterms_" in refinedKey:
+                    refinedKey = refinedKey.replace("_", ":")
+                    values.append({"predicate": refinedKey, "object": currentVal})
+                elif "dc:" in refinedKey or "dcterms:" in refinedKey:
+                    values.append({"predicate": refinedKey, "object": currentVal})
+                elif "exif_" in refinedKey or "tiff_" in refinedKey:
+                    refinedKey = refinedKey.replace("tiff_", "exif_")
+                    refinedKey = refinedKey.replace("_", ":")
+                    colonIndex = refinedKey.index(":")
+                    refinedKey = refinedKey[:colonIndex] + refinedKey[colonIndex:colonIndex+1].lower() + refinedKey[colonIndex+1:]
                     values.append({"predicate": refinedKey, "object": currentVal})
                 elif refinedKey in predicatemap:
                     values.append({"predicate": predicatemap[refinedKey], "object": currentVal})
@@ -75,7 +87,8 @@ class TikaRefine(IRefine):
                     "@prefix tika: <{}/ontologies/tika/>".format(
                         metadataFormatter.getBaseUrl(self._IRefine__config)
                     ),
-                    "@prefix dcat: <http://www.w3.org/ns/dcat#>"
+                    "@prefix dcat: <http://www.w3.org/ns/dcat#>",
+                    "@prefix exif: <http://www.w3.org/2003/12/exif/ns#>",
                 ],
                 "values": values,
             },
