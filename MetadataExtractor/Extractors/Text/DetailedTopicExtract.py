@@ -19,7 +19,7 @@ class DetailedTopicExtract(ITextExtract):
     # Helper function
     def print_topics(self, model, vectorizer, number_words):
         topic_text = ""
-        words = vectorizer.get_feature_names()
+        words = vectorizer.get_feature_names_out()
         for topic_idx, topic in enumerate(model.components_):
             topic_text += ("\nTopic #%d:" % topic_idx) + "\n"
             topic_text += (
@@ -73,7 +73,7 @@ class DetailedTopicExtract(ITextExtract):
 
             ontology = "topic"
 
-            words = vectorizer.get_feature_names()
+            words = vectorizer.get_feature_names_out()
             for topic_idx, topic in enumerate(model.components_):
                 topicIdentifier = metadataFormatter.replaceForbiddenValues(
                     str(uuid.uuid4()) + "_" + str(topic_idx + 1)
