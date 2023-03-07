@@ -17,7 +17,7 @@ chardet>=3.0.4
 tika>=2.6.0
 urllib3>=1.26.6
 seaborn>=0.11.2
-sklearn
+scikit-learn>=1.2.1
 adjustText>=0.7.3
 pyldavis>=3.3.1
 funcy>=1.17
