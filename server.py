@@ -40,6 +40,7 @@ def encoded_words_to_text(encoded_words):
             byte_string.decode(charset)
     return encoded_words
 
+# TODO: Let Metadata Extractor accept APs and ontologies and forward them to the semantic mapper
 parser = api.parser()
 parser.add_argument('identifier', type=str, help='File Identifier', location='form')
 parser.add_argument('config', type=object, help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)', location='form')

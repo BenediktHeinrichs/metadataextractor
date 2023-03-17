@@ -213,6 +213,12 @@ def getOntologyAttributes(ontology):
     return ontology + "attributes"
 
 
+def getOntologyUrl(config, ontology):
+    return "{}/ontologies/{}#".format(
+        metadataFormatter.getBaseUrl(config),
+        ontology,
+    )
+
 def getOntologyAttributesUrl(config, ontology):
     return "{}/ontologies/{}/attributes#".format(
         metadataFormatter.getBaseUrl(config),

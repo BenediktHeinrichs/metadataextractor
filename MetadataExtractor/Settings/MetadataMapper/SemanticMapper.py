@@ -96,10 +96,13 @@ class SemanticMapper(IMapper):
             )
 
         attributesUrl = metadataCreation.getOntologyAttributesUrl(config, "entries")
+        codeTokenUrl = metadataCreation.getOntologyUrl(config, "codetoken")
+        imageUrl = metadataCreation.getOntologyUrl(config, "image")
 
         variableSubjects = dict()
         for (subject, predicate, obj, contextGraph) in g.quads():
-            if attributesUrl in str(predicate):
+            predStr = str(predicate)
+            if attributesUrl in predStr or codeTokenUrl in predStr or imageUrl in predStr:
                 if subject in variableSubjects:
                     variableSubjects[subject].append(
                         (
