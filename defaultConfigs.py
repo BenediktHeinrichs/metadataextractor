@@ -129,8 +129,8 @@ def getDefaultConfig():
             "Settings": {
                 "StoreContent": True,
                 "OutputPath": "output",
-                "BaseUrl": "http://purl.org/mex/",
-                "FileUrl": "http://purl.org/mex/",
+                "BaseUrl": "https://purl.org/coscine/",
+                "FileUrl": "https://purl.org/coscine/resources/",
                 "MappingService": os.environ.get("SEMANTICMAPPERPROTOCOL", "http")
                 + "://"
                 + os.environ.get("SEMANTICMAPPERHOST", "127.0.0.1")
