@@ -5,7 +5,7 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
-@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix sem: <http://semanticweb.cs.vu.nl/2009/11/sem/> .
 @prefix schema: <http://schema.org/> .
@@ -14,7 +14,7 @@ aims:CatalogShape
     a sh:NodeShape ;
     sh:targetClass dcat:Catalog ;
     sh:property [
-        sh:path dct:identifier ;
+        sh:path dcterms:identifier ;
         sh:datatype xsd:string ;
         sh:name "Identifier" ;
         sh:maxCount 1 ;
@@ -35,7 +35,7 @@ aims:DatasetShape
     a sh:NodeShape ;
     sh:targetClass dcat:Dataset ;
     sh:property [
-        sh:path dct:identifier ;
+        sh:path dcterms:identifier ;
         sh:datatype xsd:string ;
         sh:name "Identifier" ;
         sh:maxCount 1 ;
@@ -73,7 +73,7 @@ aims:DatasetShape
 aims:TimeseriesShape
     a sh:NodeShape ;
     sh:targetClass aims:Timeseries ;
-    dct:title "Dataset_subclass" ;
+    dcterms:title "Dataset_subclass" ;
     sh:property [
         sh:path sem:hasTimeStamp ;
         sh:datatype xsd:string ;

@@ -41,7 +41,7 @@ class StructureExtract(ICodeExtract):
                 self._IExtract__config,
                 {
                     "additionalPrefixes": [
-                        "@prefix codetoken: <{}/ontologies/codetoken#>".format(
+                        "@prefix codetoken: <{}ontologies/codetoken#>".format(
                             metadataFormatter.getBaseUrl(self._IExtract__config)
                         )
                     ],

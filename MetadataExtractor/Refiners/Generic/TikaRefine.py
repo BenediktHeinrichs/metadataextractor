@@ -84,7 +84,7 @@ class TikaRefine(IRefine):
             self._IRefine__config,
             {
                 "additionalPrefixes": [
-                    "@prefix tika: <{}/ontologies/tika/>".format(
+                    "@prefix tika: <{}ontologies/tika/>".format(
                         metadataFormatter.getBaseUrl(self._IRefine__config)
                     ),
                     "@prefix dcat: <http://www.w3.org/ns/dcat#>",

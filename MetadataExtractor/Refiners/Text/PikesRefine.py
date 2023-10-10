@@ -29,7 +29,7 @@ class PikesRefine(IRefine):
             log.info("Refining Pikes Metadata.")
 
             fact = Namespace(
-                "{}/ontologies/factgraph/".format(
+                "{}ontologies/factgraph/".format(
                     metadataFormatter.getBaseUrl(self._IRefine__config)
                 )
             )

@@ -95,7 +95,7 @@ class SemanticMapper(IMapper):
                 config["Values"]["Settings"]["Vocabularies"]
             )
 
-        attributesUrl = metadataCreation.getOntologyAttributesUrl(config, "entries")
+        attributesUrl = metadataCreation.getOntologyAttributesUrl(config, "mex")
         codeTokenUrl = metadataCreation.getOntologyUrl(config, "codetoken")
         imageUrl = metadataCreation.getOntologyUrl(config, "image")
 

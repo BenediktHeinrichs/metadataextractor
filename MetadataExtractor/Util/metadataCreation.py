@@ -75,7 +75,6 @@ def addEntryToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
 
     trig = getPrefixes(additionalPrefixes, config, ontology)
 
-    ontologyGraphUrl = getOntologyGraphUrl(config)
     graphString = "<{}{}>".format(
         getFileGraph(config), metadataFormatter.formatIdentifier(fileInfo["identifier"])
     )
@@ -185,7 +184,7 @@ def getPrefixes(additionalPrefixes, config, ontology=None):
         trig += "@prefix {}: <{}> .\n".format(
             getOntologyGraphName(ontology), getOntologyGraphUrl(config)
         )
-        trig += "@prefix {}: <{}/ontologies/{}#> .\n".format(
+        trig += "@prefix {}: <{}ontologies/{}#> .\n".format(
             ontology, metadataFormatter.getBaseUrl(config), ontology
         )
         trig += "@prefix {}: <{}> .\n".format(
@@ -210,17 +209,17 @@ def getOntologyGraphUrl(config):
 
 
 def getOntologyAttributes(ontology):
-    return ontology + "attributes"
+    return ontology + "attr"
 
 
 def getOntologyUrl(config, ontology):
-    return "{}/ontologies/{}#".format(
+    return "{}ontologies/{}#".format(
         metadataFormatter.getBaseUrl(config),
         ontology,
     )
 
 def getOntologyAttributesUrl(config, ontology):
-    return "{}/ontologies/{}/attributes#".format(
+    return "{}ontologies/{}/attributes#".format(
         metadataFormatter.getBaseUrl(config),
         ontology,
     )

@@ -118,7 +118,7 @@ def run_pipeline(fileInfos: list, config):
     for fileInfo in fileInfos:
 
         if fileInfo["identifier"] == None:
-            fileInfo["identifier"] = str(uuid.uuid4()) + "/" + fileInfo["file"][fileInfo["file"].rindex(os.sep)+1:]
+            fileInfo["identifier"] = fileInfo["file"][fileInfo["file"].rindex(os.sep)+1:]
 
         log.info('Starting pipeline on "' + str(fileInfo) + '".')
 

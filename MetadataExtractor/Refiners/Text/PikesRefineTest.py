@@ -66,10 +66,10 @@ def returnData():
             
             <http://pikes.fbk.eu/#char=72,89> a ks:Mention .
         }
-        @prefix dct: <http://purl.org/dc/terms/> .
+        @prefix dcterms: <http://purl.org/dc/terms/> .
 
         {
-            <http://pikes.fbk.eu/> dct:language <http://lexvo.org/id/iso639-3/eng> .
+            <http://pikes.fbk.eu/> dcterms:language <http://lexvo.org/id/iso639-3/eng> .
             
             <http://pikes.fbk.eu/#char=101,110> a ks:EntityMention .
             
@@ -183,7 +183,7 @@ def returnData():
             
             dbpedia:George_Washington <http://groundedannotationframework.org/gaf#denotedBy> <http://pikes.fbk.eu/#char=101,110> .
             
-            <http://pikes.fbk.eu/> dct:creator "" .
+            <http://pikes.fbk.eu/> dcterms:creator "" .
             
             <http://pikes.fbk.eu/#char=60,65> ks:sst <http://www.newsreader-project.eu/sst/verb.communication> .
             
@@ -310,7 +310,7 @@ def returnData():
             <http://pikes.fbk.eu/#char=72,89> nif:anchorOf "George Washington" ;
                 nif:beginIndex "72"^^xs:int .
             
-            <http://pikes.fbk.eu/.naf> dct:creator ks:NAF%20filter.null .
+            <http://pikes.fbk.eu/.naf> dcterms:creator ks:NAF%20filter.null .
             
             <http://pikes.fbk.eu/> a ks:Resource .
             
@@ -322,7 +322,7 @@ def returnData():
             
             <http://pikes.fbk.eu/#char=101,110> a ks:Mention .
             
-            ks:NAF%20filter.null dct:title "NAF filter" .
+            ks:NAF%20filter.null dcterms:title "NAF filter" .
             
             <http://pikes.fbk.eu/#char=60,65;72,89> nif:beginIndex "60"^^xs:int .
             
@@ -330,16 +330,16 @@ def returnData():
             
             <http://pikes.fbk.eu/> ks:hasMention <http://pikes.fbk.eu/#char=72,89> .
             
-            <http://pikes.fbk.eu/.naf> dct:identifier "" .
+            <http://pikes.fbk.eu/.naf> dcterms:identifier "" .
             
             <http://pikes.fbk.eu/#char=60,65> nif:endIndex "65"^^xs:int ;
                 ks:synset <http://www.newsreader-project.eu/syn/01024190-v> .
             
-            <http://pikes.fbk.eu/.naf> dct:creator ks:Stanford%20CoreNLP.null .
+            <http://pikes.fbk.eu/.naf> dcterms:creator ks:Stanford%20CoreNLP.null .
             
             <http://pikes.fbk.eu/#char=101,110;118,122> nif:anchorOf "president [...] U.S." .
             
-            <http://pikes.fbk.eu/.naf> dct:created "2020-01-22T15:34:16.410+0100" .
+            <http://pikes.fbk.eu/.naf> dcterms:created "2020-01-22T15:34:16.410+0100" .
             
             <http://pikes.fbk.eu/#char=101,110;118,122> a ks:ParticipationMention .
             
@@ -367,7 +367,7 @@ def returnData():
             
             <http://pikes.fbk.eu/#char=19,51;53,55> ks:componentSubString <http://pikes.fbk.eu/#char=19,51> .
             
-            ks:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+            ks:Stanford%20CoreNLP.null dcterms:title "Stanford CoreNLP" .
             
             <http://pikes.fbk.eu/#char=95,100> nif:anchorOf "first" .
             
@@ -393,8 +393,8 @@ def returnData():
             
             <http://pikes.fbk.eu/#char=72,89;91,122> nif:beginIndex "72"^^xs:int .
             
-            <http://pikes.fbk.eu/> dct:title "" ;
-                dct:created "2020-01-22T15:34:11+01:00" ;
+            <http://pikes.fbk.eu/> dcterms:title "" ;
+                dcterms:created "2020-01-22T15:34:11+01:00" ;
                 ks:annotatedWith <http://pikes.fbk.eu/.naf> .
             
             <http://pikes.fbk.eu/#char=60,65;72,89> ks:componentSubString <http://pikes.fbk.eu/#char=72,89> ;
@@ -1026,10 +1026,10 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=73,79;89,93> a ks:CompoundString .
 }
-@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 
 {
-	<http://pikes.fbk.eu/.naf> dct:identifier "" .
+	<http://pikes.fbk.eu/.naf> dcterms:identifier "" .
 	
 	<http://pikes.fbk.eu/#char=122,132> ks:synset <http://www.newsreader-project.eu/syn/02349212-v> .
 	
@@ -1069,7 +1069,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=8,15;19,24> a ks:ParticipationMention .
 	
-	ks:NAF%20filter.null dct:title "NAF filter" .
+	ks:NAF%20filter.null dcterms:title "NAF filter" .
 	
 	<entity:peter> <http://groundedannotationframework.org/gaf#denotedBy> <http://pikes.fbk.eu/#char=19,24> .
 	
@@ -1097,7 +1097,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=26,34> ks:mentionOf <http://pikes.fbk.eu/> .
 	
-	<http://pikes.fbk.eu/.naf> dct:created "2020-01-24T16:00:50.083+0100" .
+	<http://pikes.fbk.eu/.naf> dcterms:created "2020-01-24T16:00:50.083+0100" .
 	
 	<http://pikes.fbk.eu/#char=31,34;38,44> nif:anchorOf "has [...] affair" .
 	
@@ -1125,7 +1125,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=0,4> nif:endIndex "4"^^xs:int .
 	
-	<http://pikes.fbk.eu/> dct:language <http://lexvo.org/id/iso639-3/eng> .
+	<http://pikes.fbk.eu/> dcterms:language <http://lexvo.org/id/iso639-3/eng> .
 	
 	<http://pikes.fbk.eu/#char=38,44;48,52> a ks:Mention .
 	
@@ -1285,7 +1285,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=19,24;95,100> a ks:CompoundString .
 	
-	<http://pikes.fbk.eu/> dct:created "2020-01-24T15:59:54+01:00" .
+	<http://pikes.fbk.eu/> dcterms:created "2020-01-24T15:59:54+01:00" .
 	
 	<http://pikes.fbk.eu/#char=89,93> nif:endIndex "93"^^xs:int ;
 		a ks:Mention .
@@ -1365,7 +1365,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=137,143> ks:lemma "murder" .
 	
-	<http://pikes.fbk.eu/> dct:title "" .
+	<http://pikes.fbk.eu/> dcterms:title "" .
 	
 	<http://pikes.fbk.eu/#char=73,79> ks:sst <http://www.newsreader-project.eu/sst/verb.change> .
 	
@@ -1562,7 +1562,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=19,24;67,72> nif:endIndex "72"^^xs:int .
 	
-	ks:Stanford%20CoreNLP.null dct:title "Stanford CoreNLP" .
+	ks:Stanford%20CoreNLP.null dcterms:title "Stanford CoreNLP" .
 	
 	<http://pikes.fbk.eu/#char=63,66> nif:endIndex "66"^^xs:int .
 	
@@ -1640,7 +1640,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=111,117> a ks:ParticipationMention .
 	
-	<http://pikes.fbk.eu/.naf> dct:creator ks:NAF%20filter.null .
+	<http://pikes.fbk.eu/.naf> dcterms:creator ks:NAF%20filter.null .
 	
 	<http://pikes.fbk.eu/> ks:hasMention <http://pikes.fbk.eu/#char=48,52> .
 	
@@ -1676,7 +1676,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=19,24;67,72> a ks:Mention .
 	
-	<http://pikes.fbk.eu/.naf> dct:creator ks:Stanford%20CoreNLP.null .
+	<http://pikes.fbk.eu/.naf> dcterms:creator ks:Stanford%20CoreNLP.null .
 	
 	<http://pikes.fbk.eu/#char=8,15;19,24> ks:componentSubString <http://pikes.fbk.eu/#char=19,24> .
 	
@@ -1688,7 +1688,7 @@ def returnData():
 	
 	<http://pikes.fbk.eu/#char=0,4> nif:beginIndex "0"^^xs:int .
 	
-	<http://pikes.fbk.eu/> dct:creator "" .
+	<http://pikes.fbk.eu/> dcterms:creator "" .
 	
 	<http://pikes.fbk.eu/#char=67,79> nif:endIndex "79"^^xs:int .
 	

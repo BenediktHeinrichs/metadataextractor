@@ -52,7 +52,7 @@ class ObjectExtract(IImageExtract):
                         "values": [
                             {
                                 "predicate": "foaf:depiction",
-                                "object": "{}/ontologies/graph/{}".format(
+                                "object": "{}ontologies/graph/{}".format(
                                     metadataFormatter.getBaseUrl(config), fileIdentifier
                                 ),
                             },
@@ -66,7 +66,7 @@ class ObjectExtract(IImageExtract):
                         self._IExtract__config,
                         {
                             "additionalPrefixes": [
-                                "@prefix {}: <{}/ontologies/{}#>".format(
+                                "@prefix {}: <{}ontologies/{}#>".format(
                                     ontology,
                                     metadataFormatter.getBaseUrl(config),
                                     ontology,
@@ -82,7 +82,7 @@ class ObjectExtract(IImageExtract):
                     )
 
             for (elemn, cnt) in counter.items():
-                obj = "{}/ontologies/{}/object#{}".format(
+                obj = "{}ontologies/{}/object#{}".format(
                     metadataFormatter.getBaseUrl(config),
                     ontology,
                     metadataFormatter.replaceForbiddenValues(elemn),
@@ -92,7 +92,7 @@ class ObjectExtract(IImageExtract):
                     self._IExtract__config,
                     {
                         "additionalPrefixes": [
-                            "@prefix {}object: <{}/ontologies/{}/object#>".format(
+                            "@prefix {}object: <{}ontologies/{}/object#>".format(
                                 ontology, metadataFormatter.getBaseUrl(config), ontology
                             )
                         ],

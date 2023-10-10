@@ -21,7 +21,7 @@ class FcsExtract(IDataExtract):
             objectValue = attributes[attribute]
             values.append(
                 {
-                    "predicate": "entriesattributes:"
+                    "predicate": "mexattr:"
                     + metadataFormatter.replaceForbiddenValues(attribute),
                     "object": objectValue,
                 }
@@ -33,10 +33,10 @@ class FcsExtract(IDataExtract):
             {
                 "additionalPrefixes": [
                     "@prefix dcat: <http://www.w3.org/ns/dcat#>",
-                    "@prefix dct: <http://purl.org/dc/terms/>",
+                    "@prefix dcterms: <http://purl.org/dc/terms/>",
                 ],
                 "identifier": identifier,
-                "ontology": "entries",
+                "ontology": "mex",
                 "values": values,
             },
         )

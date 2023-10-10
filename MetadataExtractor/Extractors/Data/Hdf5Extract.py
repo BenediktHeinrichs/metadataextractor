@@ -61,7 +61,7 @@ class Hdf5Extract(IDataExtract):
         # http://qudt.org/2.0/schema/qudt/
         # http://www.linkedmodel.org/schema/dtype
         # resolve rdf terms from: https://prefix.zazuko.com/
-        ontology = "entries"
+        ontology = "mex"
         values = [
             {
                 "predicate": "rdf:type",
@@ -71,7 +71,7 @@ class Hdf5Extract(IDataExtract):
                 "predicate": "rdf:type",
                 "object": "http://www.w3.org/ns/dcat#Dataset",
             },
-            {"predicate": "dct:identifier", "object": identifier},
+            {"predicate": "dcterms:identifier", "object": identifier},
             {"predicate": "qudt:hasDimension", "object": shape},
             {"predicate": "qudt:dataType", "object": dtype},
             {"predicate": "qudt:length", "object": size},
@@ -106,7 +106,7 @@ class Hdf5Extract(IDataExtract):
             values.append(
                 {
                     "predicate": ontology
-                    + "attributes:"
+                    + "attr:"
                     + metadataFormatter.replaceForbiddenValues(attribute),
                     "object": objectValue,
                 }
@@ -117,11 +117,11 @@ class Hdf5Extract(IDataExtract):
                 "@prefix qudt: <http://qudt.org/schema/qudt/>",
                 "@prefix dbo: <http://dbpedia.org/ontology/>",
                 "@prefix dcat: <http://www.w3.org/ns/dcat#>",
-                "@prefix dct: <http://purl.org/dc/terms/>",
+                "@prefix dcterms: <http://purl.org/dc/terms/>",
             ],
             "identifier": graphIdentifier,
             "ontology": ontology,
-            "referencePredicate": "dct:hasPart",
+            "referencePredicate": "dcterms:hasPart",
             "values": values,
         }
 
@@ -176,13 +176,13 @@ class Hdf5Extract(IDataExtract):
                 objectValue = objectValue.decode()
             values.append(
                 {
-                    "predicate": "entriesattributes:"
+                    "predicate": "mexattr:"
                     + metadataFormatter.replaceForbiddenValues(attribute),
                     "object": objectValue,
                 }
             )
 
-        values.append({"predicate": "dct:identifier", "object": dctidentifier})
+        values.append({"predicate": "dcterms:identifier", "object": dctidentifier})
 
         self.__catalogMetadata += metadataCreation.addEntryToFileGraph(
             fileInfo,
@@ -190,10 +190,10 @@ class Hdf5Extract(IDataExtract):
             {
                 "additionalPrefixes": [
                     "@prefix dcat: <http://www.w3.org/ns/dcat#>",
-                    "@prefix dct: <http://purl.org/dc/terms/>",
+                    "@prefix dcterms: <http://purl.org/dc/terms/>",
                 ],
                 "identifier": identifier,
-                "ontology": "entries",
+                "ontology": "mex",
                 "values": values,
             },
         )

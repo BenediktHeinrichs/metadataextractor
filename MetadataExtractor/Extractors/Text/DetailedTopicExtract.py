@@ -89,7 +89,7 @@ class DetailedTopicExtract(ITextExtract):
                     for i in topic.argsort()[: -number_words - 1 : -1]
                 ]:
                     formattedWord = metadataFormatter.replaceForbiddenValues(word)
-                    wordEntry = "{}/ontologies/{}/attributes#{}".format(
+                    wordEntry = "{}ontologies/{}/attributes#{}".format(
                         metadataFormatter.getBaseUrl(config), ontology, formattedWord
                     )
                     values.append(
@@ -114,7 +114,7 @@ class DetailedTopicExtract(ITextExtract):
                     config,
                     {
                         "additionalPrefixes": [
-                            "@prefix topic: <{}/ontologies/topic#>".format(
+                            "@prefix topic: <{}ontologies/topic#>".format(
                                 metadataFormatter.getBaseUrl(config)
                             )
                         ],

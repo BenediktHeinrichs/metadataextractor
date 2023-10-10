@@ -27,7 +27,7 @@ class SummaryExtract(ITextExtract):
                 self._IExtract__config,
                 {
                     "additionalPrefixes": [
-                        "@prefix text: <{}/ontologies/text/>".format(
+                        "@prefix text: <{}ontologies/text/>".format(
                             metadataFormatter.getBaseUrl(self._IExtract__config)
                         )
                     ],

@@ -14,7 +14,7 @@ examples_folder = current_dir + "\\Examples\\"
 code_folder = current_dir + "\\MetadataExtractor\\"
 
 mypath = ".\\Examples"
-fileInfos = [{ 'identifier': str(uuid.uuid4()) + "/" + f, 'file': mypath + f, 'version': "1234" } for f in listdir(mypath) if isfile(join(mypath, f))]
+fileInfos = [{ 'identifier': f, 'file': mypath + f, 'version': "1234" } for f in listdir(mypath) if isfile(join(mypath, f))]
 
 config = getDefaultConfig()
 

@@ -64,7 +64,7 @@ class DescriptiveImageExtract(IImageExtract):
                 {
                     "additionalPrefixes": [
                         "@prefix ebucore: <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#>",
-                        "@prefix {}: <{}/ontologies/{}#>".format(
+                        "@prefix {}: <{}ontologies/{}#>".format(
                             ontology,
                             metadataFormatter.getBaseUrl(config),
                             ontology,
