@@ -7,7 +7,8 @@ import shutil
 import re
 import base64
 import quopri
-import json
+from urllib.parse import urlparse
+from urllib.request import urlretrieve, urlopen
 import filedate
 import logging
 from defaultConfigs import setDefaultLogging, getDefaultConfig
@@ -40,13 +41,13 @@ def encoded_words_to_text(encoded_words):
             byte_string.decode(charset)
     return encoded_words
 
-# TODO: Let Metadata Extractor accept APs and ontologies and forward them to the semantic mapper
 parser = api.parser()
 parser.add_argument('identifier', type=str, help='File Identifier', location='form')
 parser.add_argument('config', type=object, help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)', location='form')
 parser.add_argument('creation_date', type=inputs.datetime, help='Creation Date (Time) (e.g. "2022-09-15T09:27:17.3550000+02:00")', location='form')
 parser.add_argument('modification_date', type=inputs.datetime, help='Modification Date (Time) (e.g. "2022-09-15T09:27:17.3550000+02:00")', location='form')
-parser.add_argument('file', required=True, type=FileStorage, location='files')
+parser.add_argument('url', type=str, help='Download URL of file', location='form')
+parser.add_argument('file', type=FileStorage, location='files')
 
 metadataOutput = api.model('MetadataOutput', {
     "identifier": fields.String(),
@@ -77,34 +78,45 @@ class MetadataExtractorWorker(Resource):
             if not os.path.exists(dirName):
                 os.makedirs(dirName)
             request.files['file'].save(fileName)
-            
-            file_date = filedate.File(fileName)
-            get_file_date = file_date.get()
-
-            if "identifier" in data:
-                identifier = data["identifier"]
-            else:
-                identifier = None
-
-            if "creation_date" in data:
-                creation_date = data["creation_date"]
-            else:
-                creation_date = get_file_date["created"]
-
-            if "modification_date" in data:
-                modification_date = data["modification_date"]
-            else:
-                modification_date = get_file_date["modified"]
-
-            file_date.set(
-                created=creation_date,
-                modified=modification_date,
-                accessed=get_file_date["accessed"]
-            )
-
-            pipelineInput.append({"identifier": identifier, "file": fileName})
+        elif 'url' in data:
+            parsedUrl = urlparse(data['url'])
+            fileIdentifier = os.path.basename(parsedUrl.path)
+            fileName = os.path.join(folder, fileIdentifier)
+            dirName = fileName[:fileName.rindex(os.sep)]
+            if not os.path.exists(dirName):
+                os.makedirs(dirName)
+            site = urlopen(data['url'])
+            if int(site.getheader("Content-Length")) > app.config['MAX_CONTENT_LENGTH']:
+                return "File too big", 400
+            urlretrieve(data['url'], fileName)
         else:
             return "No file sent", 400
+            
+        file_date = filedate.File(fileName)
+        get_file_date = file_date.get()
+
+        if "identifier" in data:
+            identifier = data["identifier"]
+        else:
+            identifier = None
+
+        if "creation_date" in data:
+            creation_date = data["creation_date"]
+        else:
+            creation_date = get_file_date["created"]
+
+        if "modification_date" in data:
+            modification_date = data["modification_date"]
+        else:
+            modification_date = get_file_date["modified"]
+
+        file_date.set(
+            created=creation_date,
+            modified=modification_date,
+            accessed=get_file_date["accessed"]
+        )
+
+        pipelineInput.append({"identifier": identifier, "file": fileName})
 
         if "config" in data:
             config = data["config"]
