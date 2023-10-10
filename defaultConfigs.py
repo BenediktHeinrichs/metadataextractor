@@ -65,7 +65,7 @@ def getDefaultConfig():
             "Generic": ["TikaExtract"],
             "Text": [
                 "TopicExtract",
-                "PikesExtract",
+                #"PikesExtract",
                 #"SummaryExtract",
             ],
             "Triples": [],
