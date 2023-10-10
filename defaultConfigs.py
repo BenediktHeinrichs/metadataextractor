@@ -76,7 +76,7 @@ def getDefaultConfig():
                 "TesseractExtract",
             ],
             "Audio": [
-                #"SpeechRecognitionExtract"
+                "SpeechRecognitionExtract"
             ],
             "Video": ["AudioSpeechRecognitionExtract"],
             "Pdf": ["PdfExtract"],

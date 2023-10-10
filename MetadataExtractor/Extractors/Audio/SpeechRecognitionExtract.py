@@ -72,7 +72,7 @@ class SpeechRecognitionExtract(IAudioExtract):
                     )
 
             else:
-                text = r.recognize_google(audio)
+                text = r.recognize_whisper(audio, translate=True)
         if mp3File:
             os.remove(file)
         return (text, "")

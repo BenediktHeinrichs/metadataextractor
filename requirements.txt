@@ -1,7 +1,7 @@
 rdflib>=6.0.1
 networkx>=2.6.3
 matplotlib>=3.4.3
-SpeechRecognition>=3.8.1
+SpeechRecognition>=3.10.0
 moviepy>=1.0.3
 # For GPU Builds use: tensorflow-gpu==2.8.0
 tensorflow==2.8.0
@@ -47,3 +47,5 @@ h5py==3.7.0
 protobuf==3.20.*
 flowio==1.1.1
 flowkit==1.0.0
+git+https://github.com/openai/whisper.git
+soundfile
