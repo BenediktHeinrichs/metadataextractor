@@ -169,8 +169,11 @@ class SemanticMapper(IMapper):
         currentPath = os.path.dirname(os.path.realpath(__file__))
         for graph in graphs:
             g = Graph()
-            graphPath = currentPath + "\\..\\..\\..\\Data\\" + graph["file"]
-            g.parse(graphPath, format=graph["format"])
+            if "file" in graph:
+                graphPath = currentPath + "\\..\\..\\..\\Data\\" + graph["file"]
+                g.parse(source=graphPath, format=graph["format"])
+            elif "data" in graph:
+                g.parse(data=graph["data"], format=graph["format"])
             returnList.append(g)
         return returnList
 

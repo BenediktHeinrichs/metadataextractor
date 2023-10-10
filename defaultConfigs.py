@@ -96,7 +96,7 @@ def getDefaultConfig():
         "Settings": {
             "MetadataCombiner": ["RDFLibCombiner"],
             "MetadataMapper": [
-                #"SemanticMapper"
+                "SemanticMapper"
             ],
             "Storage": ["FileAdapter"],
         },
@@ -143,7 +143,7 @@ def getDefaultConfig():
                 "Vocabularies": [
                     {"file": "dcterms.ttl", "format": "turtle"},
                     {"file": "schema.ttl", "format": "turtle"},
-                    {"file": "hdf5Vocab.ttl", "format": "turtle"},
+                    {"data": "@base <http://aims.org/hdf5Vocab/> .\n\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n@prefix owl: <http://www.w3.org/2002/07/owl#> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n@prefix dcam: <http://purl.org/dc/dcam/> .\n@prefix dcterms: <http://purl.org/dc/terms/> .\n@prefix hdf5Vocab: <http://aims.org/hdf5Vocab/> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n<http://aims.org/hdf5Vocab/>\n    dcterms:title \"HDF5 Vocab\"@en .\n\nhdf5Vocab:parameterVersion\n    dcterms:description \"The parameter version\"@en ;\n    dcterms:issued \"2021-03-17\"^^<http://www.w3.org/2001/XMLSchema#date> ;\n    a rdf:Property ;\n    rdfs:comment \"The parameter version.\"@en ;\n    rdfs:isDefinedBy <http://aims.org/hdf5Vocab/> ;\n    rdfs:label \"kkn_parameter_version\"@en .\n\nhdf5Vocab:pipelineVersion\n    dcterms:description \"The pipeline version\"@en ;\n    dcterms:issued \"2021-03-17\"^^<http://www.w3.org/2001/XMLSchema#date> ;\n    a rdf:Property ;\n    rdfs:comment \"The pipeline version.\"@en ;\n    rdfs:isDefinedBy <http://aims.org/hdf5Vocab/> ;\n    rdfs:label \"kkn_pipeline_version\"@en .\n", "format": "turtle"},
                 ],
             },
         },
