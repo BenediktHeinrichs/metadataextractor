@@ -1,9 +1,7 @@
 # https://towardsdatascience.com/object-detection-with-less-than-10-lines-of-code-using-python-2d28eebc5b11
 import cv2
 import matplotlib.pyplot as plt
-import cvlib as cv
-from cvlib.object_detection import draw_bbox
-import os
+import super_gradients
 import logging
 
 log = logging.getLogger(__name__)
@@ -15,7 +13,7 @@ from .IImageExtract import IImageExtract
 
 class ObjectExtract(IImageExtract):
     def image_extract(
-        self, fileInfo, showDifference=False, rootFileInfo=False, frameNumber=False
+        self, fileInfo, rootFileInfo=False, frameNumber=False
     ):
 
         file = fileInfo["file"]
@@ -29,13 +27,23 @@ class ObjectExtract(IImageExtract):
 
         im = cv2.imread(file)
         if im is not None:
-            bbox, labels, conf = cv.detect_common_objects(im)
-            if showDifference:
-                output_image = draw_bbox(im, bbox, labels, conf)
-                plt.imshow(output_image)
-                plt.show()
+            yolo_nas = super_gradients.training.models.get("yolo_nas_l", pretrained_weights="coco")
+            model_predictions  = yolo_nas.predict(file)
+            model_prediction = model_predictions[0]
+            all_class_names = model_prediction.class_names
+            prediction = model_prediction.prediction
 
-            counter = Counter(labels)
+            labels = prediction.labels
+            class_names = {}
+            for label in labels:
+                labelint = int(label)
+                class_name = all_class_names[labelint]
+                if class_name in class_names:
+                    class_names[class_name] += 1
+                else:
+                    class_names[class_name] = 1
+
+            counter = Counter(class_names)
 
             ontology = "image"
 
@@ -112,7 +120,7 @@ class ObjectExtract(IImageExtract):
                     },
                 )
 
-            if len(labels) > 0:
+            if len(class_names) > 0:
                 text += (
                     "This image"
                     + (" on frame " + str(frameNumber) if frameNumber != False else "")
@@ -126,14 +134,14 @@ class ObjectExtract(IImageExtract):
         return ("", trig)
 
     def extract(
-        self, fileInfo, showDifference=False, rootFileInfo=False, frameNumber=False
+        self, fileInfo, rootFileInfo=False, frameNumber=False
     ):
-        return self.image_extract(fileInfo, showDifference, rootFileInfo, frameNumber)
+        return self.image_extract(fileInfo, rootFileInfo, frameNumber)
 
 
 if __name__ == "__main__":
 
     objectExtract = ObjectExtract({})
     objectExtract.image_extract(
-        {"identifier": "1234", "file": ".\\Dump\\fruits.jpeg"}, __debug__
+        {"identifier": "1234", "file": ".\\Examples\\fruits.jpeg"}
     )
