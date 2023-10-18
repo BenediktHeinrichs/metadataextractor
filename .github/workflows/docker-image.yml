@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Publish Docker
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        # The name of the image you would like to push
+        name: metadataextractor
+        # The login username for the registry
+        username: $REGISTRY_USER
+        # The login password for the registry
+        password: $REGISTRY_PASS
+        # Use registry for pushing to a custom registry
+        registry: registry.git.rwth-aachen.de/coscine/research/metadataextractor
+        # Use tags when you want to bring your own tags (separated by comma)
+        tags: latest
+    
