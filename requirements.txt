@@ -4,7 +4,7 @@ matplotlib>=3.4.3
 SpeechRecognition>=3.10.0
 moviepy>=1.0.3
 opencv-python>=4.5.5.62
-super_gradients>=3.2.1
+super_gradients==3.3.0
 numpy>=1.20.3
 pytesseract>=0.3.8
 argparse>=1.4.0
@@ -45,5 +45,5 @@ h5py==3.7.0
 protobuf==3.20.*
 flowio==1.1.1
 flowkit==1.0.0
-git+https://github.com/openai/whisper.git
+openai-whisper
 soundfile
