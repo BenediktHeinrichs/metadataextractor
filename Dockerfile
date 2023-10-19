@@ -5,6 +5,7 @@ FROM python:3.10-slim
 ADD *.py /
 ADD *.sh /
 ADD requirements.txt /
+ADD Data /Data
 ADD MetadataExtractor /MetadataExtractor
 
 # Install dependencies and clean up in a single layer
