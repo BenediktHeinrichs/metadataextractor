@@ -170,8 +170,12 @@ class SemanticMapper(IMapper):
         for graph in graphs:
             g = Graph()
             if "file" in graph:
-                graphPath = currentPath + "\\..\\..\\..\\Data\\" + graph["file"]
-                g.parse(source=graphPath, format=graph["format"])
+                # Don't fail if file does not exist
+                try:
+                    graphPath = currentPath + "\\..\\..\\..\\Data\\" + graph["file"]
+                    g.parse(source=graphPath, format=graph["format"])
+                except:
+                    log.error("Path not valid: " + graphPath)
             elif "data" in graph:
                 g.parse(data=graph["data"], format=graph["format"])
             returnList.append(g)
