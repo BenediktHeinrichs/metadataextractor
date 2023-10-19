@@ -1,8 +1,11 @@
 # Use the slim base image
 FROM python:3.10-slim
 
-# Copy only the necessary files and directories
-COPY *.py *.sh requirements.txt ./MetadataExtractor ./ 
+# Add relevant files
+ADD *.py /
+ADD *.sh /
+ADD requirements.txt /
+ADD MetadataExtractor /MetadataExtractor
 
 # Install dependencies and clean up in a single layer
 RUN apt-get update && apt-get install -y --no-install-recommends \
