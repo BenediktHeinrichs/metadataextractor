@@ -1,9 +1,6 @@
 # Use the slim base image
 FROM python:3.10-slim
 
-# Set the working directory
-WORKDIR /app
-
 # Copy only the necessary files and directories
 COPY *.py *.sh requirements.txt ./MetadataExtractor ./ 
 
