@@ -10,11 +10,9 @@ setDefaultLogging()
 from MetadataExtractor.pipeline import run_pipeline
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
-examples_folder = current_dir + "\\Examples\\"
-code_folder = current_dir + "\\MetadataExtractor\\"
+examples_folder = join(current_dir, "Examples")
 
-mypath = ".\\Examples"
-fileInfos = [{ 'identifier': f, 'file': mypath + f, 'version': "1234" } for f in listdir(mypath) if isfile(join(mypath, f))]
+fileInfos = [{ 'identifier': f, 'file': join(examples_folder, f), 'version': "1234" } for f in listdir(examples_folder) if isfile(join(examples_folder, f))]
 
 config = getDefaultConfig()
 

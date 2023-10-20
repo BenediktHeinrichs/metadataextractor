@@ -6,8 +6,6 @@ name: Python Test
 on:
   push:
     branches: [ "*" ]
-  pull_request:
-    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -25,9 +23,13 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        sudo pip install pip --upgrade
         chmod +x installDependencies.sh
-        ./installDependencies.sh
+        sudo ./installDependencies.sh
+        sudo pip install flake8
+        sudo pip install --upgrade boto3 boto
+        # Deal with SSL errors: https://stackoverflow.com/questions/73830524/attributeerror-module-lib-has-no-attribute-x509-v-flag-cb-issuer-check
+        sudo pip install --upgrade pyopenssl
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -36,4 +38,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test by running the pipeline_runner
       run: |
-        python pipeline_runner.py
+        sudo java -jar ./tika-server.jar &
+        sudo python pipeline_runner.py
