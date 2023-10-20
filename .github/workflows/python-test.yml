@@ -19,12 +19,12 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install dependencies
       run: |
-        # Deal with SSL errors: https://stackoverflow.com/questions/73830524/attributeerror-module-lib-has-no-attribute-x509-v-flag-cb-issuer-check
         pip install pip --upgrade
-        pip install pyopenssl --upgrade
         chmod +x installDependencies.sh
         sudo ./installDependencies.sh
         pip install flake8
+        # Deal with SSL errors: https://stackoverflow.com/questions/73830524/attributeerror-module-lib-has-no-attribute-x509-v-flag-cb-issuer-check
+        pip install pyopenssl --upgrade
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
