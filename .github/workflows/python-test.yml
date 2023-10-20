@@ -23,16 +23,13 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
-        pip install pip --upgrade
+        sudo pip install pip --upgrade
         chmod +x installDependencies.sh
         sudo ./installDependencies.sh
-        pip install flake8
+        sudo pip install flake8
+        sudo pip install --upgrade boto3 boto
         # Deal with SSL errors: https://stackoverflow.com/questions/73830524/attributeerror-module-lib-has-no-attribute-x509-v-flag-cb-issuer-check
-        pip install --upgrade pyopenssl
-        # https://stackoverflow.com/questions/74982124/sam-build-from-github-actions-suddenly-failing-today-module-lib-has-no-attrib
-        pip install --upgrade cryptography==38.0.4
-        # https://stackoverflow.com/questions/74982124/sam-build-from-github-actions-suddenly-failing-today-module-lib-has-no-attrib
-        pip install --upgrade boto3 boto
+        sudo pip install --upgrade pyopenssl
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
