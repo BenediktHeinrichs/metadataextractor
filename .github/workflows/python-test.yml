@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         chmod +x installDependencies.sh
-        ./installDependencies.sh
+        sudo ./installDependencies.sh
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -29,4 +29,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test by running the pipeline_runner
       run: |
-        python pipeline_runner.py
+        sudo python pipeline_runner.py
