@@ -21,6 +21,8 @@ jobs:
       run: |
         chmod +x installDependencies.sh
         sudo ./installDependencies.sh
+        # Deal with SSL errors: https://stackoverflow.com/questions/73830524/attributeerror-module-lib-has-no-attribute-x509-v-flag-cb-issuer-check
+        pip3 install pyopenssl --upgrade
         pip install flake8
     - name: Lint with flake8
       run: |
