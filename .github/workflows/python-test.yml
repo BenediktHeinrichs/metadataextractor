@@ -29,6 +29,8 @@ jobs:
         pip install flake8
         # Deal with SSL errors: https://stackoverflow.com/questions/73830524/attributeerror-module-lib-has-no-attribute-x509-v-flag-cb-issuer-check
         pip install pyopenssl --upgrade
+        # https://stackoverflow.com/questions/74982124/sam-build-from-github-actions-suddenly-failing-today-module-lib-has-no-attrib
+        pip install --upgrade cryptography==38.0.4
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
