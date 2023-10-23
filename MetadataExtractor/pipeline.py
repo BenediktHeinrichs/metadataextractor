@@ -106,7 +106,7 @@ class MetadataHandler:
 # This method handles the MetadataExtractor pipeline
 # It expects a file array input and a config file
 # An example of a config object can be found in "pipeline_runner.py"
-def run_pipeline(fileInfos: list, config):
+def run_pipeline(fileInformation: list, config):
 
     importDependencies(config)
 
@@ -115,7 +115,7 @@ def run_pipeline(fileInfos: list, config):
     if config["Values"]["Generic"]["MagicMimeType"]:
         mime = magic.Magic(mime=True)
 
-    for fileInfo in fileInfos:
+    for fileInfo in fileInformation:
 
         if fileInfo["identifier"] == None:
             fileInfo["identifier"] = fileInfo["file"][fileInfo["file"].rindex(os.sep)+1:]
