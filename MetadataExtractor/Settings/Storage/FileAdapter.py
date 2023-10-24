@@ -28,7 +28,7 @@ class FileAdapter(IAdapter):
         return textFile
 
     def complete_metadata(self, metadata, fileInfo):
-        return self.complete(metadata, fileInfo, "." + self.__config["Values"]["Settings"]["Format"])
+        return self.complete(metadata, fileInfo, "." + self._IAdapter__config["Values"]["Settings"]["Format"])
 
     def complete_text(self, content, fileInfo):
         return self.complete(content, fileInfo, ".txt")

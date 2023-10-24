@@ -1,16 +1,12 @@
 # encoding=utf8
-import os
 import sys
-import urllib
 import logging
 
 log = logging.getLogger(__name__)
 from argparse import ArgumentParser
 import requests
-import wget
 from nltk.tokenize import sent_tokenize
 
-from MetadataExtractor.Util import fileUtil
 from MetadataExtractor.Refiners.Text import PikesRefine
 from .ITextExtract import ITextExtract
 
