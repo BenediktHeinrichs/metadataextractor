@@ -3,8 +3,7 @@ apt-get update \
     && pip install --no-cache-dir -r requirements.txt \
     && python -c "import nltk; nltk.download('punkt')" \
     && wget -O ./tika-server.jar https://archive.apache.org/dist/tika/2.7.0/tika-server-standard-2.7.0.jar \
-    && mkdir -p checkpoints
-    && wget -O ./checkpoints/yolo_nas_l_coco.pth https://sghub.deci.ai/models/yolo_nas_l_coco.pth
-    && mkdir -p ~/.cache/torch/hub/checkpoints
-    && wget -O ~/.cache/torch/hub/checkpoints/mobilenet_v3_small-047dcff4.pth https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth
+    && mkdir -p ~/.cache/torch/hub/checkpoints \
+    && wget -O ~/.cache/torch/hub/checkpoints/yolo_nas_l_coco.pth https://sghub.deci.ai/models/yolo_nas_l_coco.pth \
+    && wget -O ~/.cache/torch/hub/checkpoints/mobilenet_v3_small-047dcff4.pth https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth \
     && chmod +x run.sh
