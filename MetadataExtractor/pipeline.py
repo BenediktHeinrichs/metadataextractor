@@ -85,12 +85,12 @@ class MetadataHandler:
             )
 
     def complete_storing(self, content):
+        fileInfo = self.__fileInfo
         metadata = ""
         for metadataCombinerImplementation in self.__metadataCombinerImplementations:
-            metadata += metadataCombinerImplementation.combine()
+            metadata += metadataCombinerImplementation.combine(fileInfo)
         for metadataMapperImplementation in self.__metadataMapperImplementations:
-            metadata = metadataMapperImplementation.map(metadata)
-        fileInfo = self.__fileInfo
+            metadata = metadataMapperImplementation.map(metadata, self.__config["Values"]["Settings"]["Format"])
         returnObject = { "identifier": fileInfo["identifier"] }
         for storageImplementation in self.__storageImplementations:
             returnObject["metadata"] = storageImplementation.complete_metadata(
@@ -178,7 +178,8 @@ def run_pipeline(fileInformation: list, config):
                     "values": [{"predicate": "dcat:mediaType", "object": mimetype}],
                 },
                 True
-            )
+            ),
+            "trig"
         )
 
         for extractorType in extractors.keys():

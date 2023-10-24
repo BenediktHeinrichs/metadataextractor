@@ -14,7 +14,7 @@ class BasicCombiner(ICombiner):
         log.info("Adding Metadata to list.")
         self.__metadataEntries.append(metadata)
 
-    def perform_combine(self):
+    def perform_combine(self, fileInfo):
         log.info("Combining Metadata.")
         return "\n".join(self.__metadataEntries)
 

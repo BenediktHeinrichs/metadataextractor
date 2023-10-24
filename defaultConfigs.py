@@ -127,6 +127,7 @@ def getDefaultConfig():
                 "ImageFrequency": "300",
             },
             "Settings": {
+                "Format": "trig",
                 "StoreContent": True,
                 "OutputPath": "output",
                 "BaseUrl": "https://purl.org/coscine/",

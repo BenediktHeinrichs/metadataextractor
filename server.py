@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_restx import Api, Resource, fields, inputs
 from werkzeug.datastructures import FileStorage
 import os
@@ -48,6 +48,7 @@ parser.add_argument('creation_date', type=inputs.datetime, help='Creation Date (
 parser.add_argument('modification_date', type=inputs.datetime, help='Modification Date (Time) (e.g. "2022-09-15T09:27:17.3550000+02:00")', location='form')
 parser.add_argument('url', type=str, help='Download URL of file', location='form')
 parser.add_argument('file', type=FileStorage, location='files')
+parser.add_argument('accept', required=True, location='headers', choices=['application/json', 'application/ld+json', 'application/rdf+xml', 'application/trig', 'text/turtle'], default='application/json')
 
 metadataOutput = api.model('MetadataOutput', {
     "identifier": fields.String(),
@@ -126,11 +127,24 @@ class MetadataExtractorWorker(Resource):
             config = getDefaultConfig()
         config["Settings"]["Storage"] = ["ReturnAdapter"]
 
+        mimeType = request.accept_mimetypes.best
+        if mimeType == "text/turtle":
+            config["Values"]["Settings"]["Format"] = "turtle"
+        elif mimeType == "application/ld+json":
+            config["Values"]["Settings"]["Format"] = "json-ld"
+        elif mimeType == "application/rdf+xml":
+            config["Values"]["Settings"]["Format"] = "xml"
+        elif mimeType == "application/trig":
+            config["Values"]["Settings"]["Format"] = "trig"
+
         iterativeList = run_pipeline(pipelineInput, config)
 
         shutil.rmtree(folder, ignore_errors=True)
 
-        return jsonify(iterativeList)
+        if mimeType == "application/json":
+            return jsonify(iterativeList)
+        else:
+            return Response(iterativeList[0]["metadata"], mimetype=mimeType)
 
 @api.route("/defaultConfig")
 class ConfigWorker(Resource):

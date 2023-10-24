@@ -1,7 +1,8 @@
 # https://towardsdatascience.com/object-detection-with-less-than-10-lines-of-code-using-python-2d28eebc5b11
 import cv2
-import matplotlib.pyplot as plt
+import os
 import super_gradients
+from super_gradients.training.pretrained_models import MODEL_URLS
 import logging
 
 log = logging.getLogger(__name__)
@@ -27,7 +28,14 @@ class ObjectExtract(IImageExtract):
 
         im = cv2.imread(file)
         if im is not None:
-            yolo_nas = super_gradients.training.models.get("yolo_nas_l", pretrained_weights="coco")
+            current_dir = os.path.dirname(os.path.realpath(__file__))
+            localCheckpoint = "../../../checkpoints/yolo_nas_l_coco.pth"
+            localCheckpoint = os.path.abspath(os.path.join(current_dir, localCheckpoint))
+            if os.path.exists(localCheckpoint):
+                MODEL_URLS["yolo_nas_l_coco"] = localCheckpoint
+                yolo_nas = super_gradients.training.models.get("yolo_nas_l", pretrained_weights="coco")
+            else:
+                yolo_nas = super_gradients.training.models.get("yolo_nas_l", pretrained_weights="coco")
             model_predictions  = yolo_nas.predict(file)
             model_prediction = model_predictions[0]
             all_class_names = model_prediction.class_names

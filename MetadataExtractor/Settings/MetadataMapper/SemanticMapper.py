@@ -1,5 +1,3 @@
-import subprocess  # For executing a shell command
-import platform  # For getting the operating system name
 from .IMapper import IMapper
 import logging
 import requests
@@ -9,8 +7,7 @@ log = logging.getLogger(__name__)
 
 import os
 from rdflib.graph import Graph, ConjunctiveGraph
-from rdflib import URIRef, BNode, Literal
-from rdflib.util import guess_format
+from rdflib import URIRef, Literal
 from MetadataExtractor.Util import metadataCreation
 
 import validators
@@ -172,7 +169,8 @@ class SemanticMapper(IMapper):
             if "file" in graph:
                 # Don't fail if file does not exist
                 try:
-                    graphPath = currentPath + "\\..\\..\\..\\Data\\" + graph["file"]
+                    buildPath = "../../../Data/" + graph["file"]
+                    graphPath = os.path.abspath(os.path.join(currentPath, buildPath))
                     g.parse(source=graphPath, format=graph["format"])
                 except:
                     log.error("Path not valid: " + graphPath)

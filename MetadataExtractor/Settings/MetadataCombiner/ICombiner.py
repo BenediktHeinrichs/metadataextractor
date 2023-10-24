@@ -11,13 +11,13 @@ class ICombiner:
     def add(self, metadata, metadataformat):
         raise NotImplementedError
 
-    def combine(self):
-        combination = self.perform_combine()
+    def combine(self, fileInfo):
+        combination = self.perform_combine(fileInfo)
         self.reset()
         return combination
 
     @abstractmethod
-    def perform_combine(self):
+    def perform_combine(self, fileInfo):
         raise NotImplementedError
 
     @abstractmethod
