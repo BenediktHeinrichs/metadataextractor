@@ -34,6 +34,7 @@ jobs:
           subFolder: .github
           imageName: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           imageTag: devcontainer
+          cacheFrom: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           push: always
           runCmd: |
-            sudo sh ./installDependencies.sh
+            sudo sh ../installDependencies.sh
