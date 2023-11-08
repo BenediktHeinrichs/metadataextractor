@@ -1,83 +1,100 @@
 # MetadataExtractor
 
-This repository provides the source code to the MetadataExtractor project and help for setting it up.
+MetadataExtractor is a web service built on Flask for extracting metadata as [RDF](https://www.w3.org/RDF/) triples from various file types. This service utilizes a REST API for receiving files and returning metadata in multiple formats.
 
-## Running Tika
+## Requirements
 
-1) Download the server .jar from here: [Tika Downloadsite](https://tika.apache.org/download.html)
-2) Execute the tika server with `java -jar {tika-server-jar}`
+- Python 3.10+
+- Additional dependencies are listed in the `installDependencies.sh` file.
+  - [Apache Tika](https://tika.apache.org/)
+  - [Tesseract](https://github.com/tesseract-ocr/tesseract)
+  - [OpenCV](https://opencv.org/)
+  - [YOLO-NAS](https://github.com/Deci-AI/super-gradients/blob/master/YOLONAS.md)
+- Additional requirements are listed in the `requirements.txt` file.
 
-## Development
+## Installation
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://git.rwth-aachen.de/coscine/research/metadataextractor)
+To install MetadataExtractor, follow these steps:
 
-## For installing the dependencies
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-repository/MetadataExtractor.git
+    cd MetadataExtractor
+    ```
 
-```bash
-pip install imageio==2.4.1
-```
+2. Run the `installDependencies.sh` script to install required dependencies (Linux):
+    ```bash
+    ./installDependencies.sh
+    ```
 
-Execute in Python:
+3. Install the required Python packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-```python
-import imageio
-imageio.plugins.ffmpeg.download()
-```
+4. If you have Docker installed, you can build and run the service using the provided `Dockerfile`.
 
-After that execute:
+## Running the Service
 
-```bash
-pip install setuptools
-pip install invoke
+To start the service:
 
-invoke install
-```
+1. Using Python directly:
+    ```bash
+    python server.py
+    ```
 
-If this doesn't work, execute:
+2. Using Docker:
+    - Build the Docker image:
+        ```bash
+        docker build -t metadataextractor .
+        ```
+    - Run the Docker container:
+        ```bash
+        docker run -p 36541:36541 metadataextractor
+        ```
 
-```bash
-pip install -r requirements.txt
-```
+## Configuration
 
-If you plan on using it on .mp3 files you need to install [ffmpeg](https://ffmpeg.zeranoe.com/builds/) and make it available on PATH.
+- The service can be configured using the `defaultConfigs.py` module.
+  - This configuration can be overwritten at every metadata extraction request
+- Logging is set up via the `setDefaultLogging()` function.
+- Environmental variables such as `MAX_CONTENT_LENGTH`, `METADATA_EXTRACTOR_HOST`, and `METADATA_EXTRACTOR_PORT` can be adjusted as needed.
 
-On windows, please install:
+## Version
 
-```bash
-pip install python-magic-bin==0.4.14
-```
+Current API version is defined by the `__version__` attribute within the `MetadataExtractor` module.
 
-## Server
+## Usage
 
-For running MetadataExtractor as a server, just execute the `server.py` with Python.
+The service exposes several endpoints:
 
-Set the environment variable `METADATAEXTRACTORPORT` if you want to specify the port.
+### POST /
 
-### Endpoints
+- This endpoint accepts form-data with a download url or a file along with optional parameters:
+  - `identifier`: A unique identifier for the file.
+  - `config`: Configuration object for extraction settings.
+  - `creation_date`: File's creation date.
+  - `modification_date`: File's modification date.
+  - `url`: Download URL of the file.
+  - `file`: The file to be processed.
+- Returns extracted metadata in the requested format. (JSON, Turtle, RDF/XML, JSON-LD, TriG)
 
-There is are three endpoints present:
+### GET /defaultConfig
 
-#### Default (/) POST
+- Returns the default configuration JSON object for the Metadata Extractor.
 
-The main operation from which the Metadata Extraction can be triggered.
+### GET /version
 
-It expects 1-n files to be present from a multi-form upload. `enctype="multipart/form-data"` should be present.
+- Returns the current version of the Metadata Extractor.
 
-Furthermore, it reads the data form where values like identifiers for these files ["identifier"] and a configuration extension ["config"] can be put.
+## API Response Models
 
-#### Default Config (/defaultConfig) GET
+The server uses defined response models to structure the JSON response. This includes the `MetadataOutput` model for the main endpoint and the `Version` model for the version endpoint.
 
-Retrieves the default configuration currently present on the Metadata Extraction instance.
+## Contributing
 
-#### Version (/version) GET
+Contributions are welcome! Please feel free to submit a pull request.
 
-Retrieves the current version of the Metadata Extraction instance.
+### Development
 
-## Docker
-
-Run the following commands for using this repository with docker (replacing {yourPort}):
-
-```bash
-docker build -t metadata-extractor .
-docker run --publish {yourPort}:36541 metadata-extractor
-```
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/BenediktHeinrichs/metadataextractor)

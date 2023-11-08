@@ -167,6 +167,6 @@ if __name__ == "__main__":
     from waitress import serve
     serve(
         app,
-        host=os.environ.get("METADATAEXTRACTORHOST", "0.0.0.0"),
-        port=os.environ.get("METADATAEXTRACTORPORT", 36541),
+        host=os.environ.get("METADATA_EXTRACTOR_HOST", "0.0.0.0"),
+        port=os.environ.get("METADATA_EXTRACTOR_PORT", 36541),
     )
