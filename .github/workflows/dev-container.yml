@@ -13,7 +13,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: benediktheinrichs/metadataextractor
+  IMAGE_NAME: benediktheinrichs/metadataextractor-devcontainer
 
 jobs:
   build:
@@ -33,9 +33,5 @@ jobs:
         with:
           subFolder: .github
           imageName: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          imageTag: devcontainer
           cacheFrom: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           push: always
-          runCmd: |
-            cd ..
-            sudo sh ./installDependencies.sh

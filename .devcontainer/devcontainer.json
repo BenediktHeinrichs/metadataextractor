@@ -3,8 +3,8 @@
 {
 	"name": "Python 3",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "ghcr.io/benediktheinrichs/metadataextractor:devcontainer",
+	"image": "ghcr.io/benediktheinrichs/metadataextractor-devcontainer",
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo ./run.sh"
+	// Use 'postStartCommand' to run commands after the container is started.
+	"postStartCommand": "sudo ./run.sh"
 }
