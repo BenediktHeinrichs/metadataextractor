@@ -8,12 +8,12 @@ permissions:
   contents: read
   # Push images to GHCR.
   packages: write
-  
+
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: benediktheinrichs/metadataextractor
 
 jobs:
   build:
