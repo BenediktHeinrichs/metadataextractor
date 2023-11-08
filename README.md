@@ -22,17 +22,12 @@ To install MetadataExtractor, follow these steps:
     cd MetadataExtractor
     ```
 
-2. Run the `installDependencies.sh` script to install required dependencies (Linux):
+2. Run the `installDependencies.sh` script to install required dependencies & Python packages (Linux):
     ```bash
     ./installDependencies.sh
     ```
 
-3. Install the required Python packages:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. If you have Docker installed, you can build and run the service using the provided `Dockerfile`.
+3. If you have Docker installed, you can build and run the service using the provided `Dockerfile`.
 
 ## Running the Service
 

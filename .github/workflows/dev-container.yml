@@ -1,0 +1,17 @@
+name: DevContainer
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: mcr.microsoft.com/devcontainers/python:0-3.10
+    steps:
+      - name: Pre-build dev container image
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/BenediktHeinrichs/metadataextractor-devcontainer
+          cacheFrom: ghcr.io/BenediktHeinrichs/metadataextractor-devcontainer
+          push: always
+          runCmd: sudo sh ./installDependencies.sh
