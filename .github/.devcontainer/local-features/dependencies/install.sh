@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 cd ../../../../
-sudo sh ./installDependencies.sh
+sudo sh $(pwd)/installDependencies.sh
