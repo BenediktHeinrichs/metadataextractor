@@ -3,7 +3,7 @@
 {
 	"name": "Python 3",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "ghcr.io/BenediktHeinrichs/metadataextractor:devcontainer",
+	"image": "mcr.microsoft.com/devcontainers/python:0-3.10",
 
 	// Configure tool-specific properties.
 	"customizations": {
@@ -11,6 +11,8 @@
 		"vscode": {
 			"settings": {},
 			"extensions": [
+				"github.vscode-github-actions",
+				"ms-azuretools.vscode-docker",
 				"streetsidesoftware.code-spell-checker"
 			]
 		}
@@ -28,8 +30,11 @@
 		}
 	},
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo sh ./installDependencies.sh",
+	// Use 'onCreateCommand' to run commands before the container is created.
+	"onCreateCommand": "sudo sh ./installDependencies.sh",
+
+	// Use 'postStartCommand' to run commands after the container is started.
+	"postStartCommand": "java -jar ./tika-server.jar &",
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	"remoteUser": "root"
