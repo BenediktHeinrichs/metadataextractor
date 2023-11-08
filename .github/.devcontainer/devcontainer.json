@@ -3,7 +3,7 @@
 {
 	"name": "Python 3",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "../../.devcontainer.Dockerfile"
 	},
 
 	// Configure tool-specific properties.
@@ -13,6 +13,7 @@
 			"settings": {},
 			"extensions": [
 				"github.vscode-github-actions",
+				"ms-azuretools.vscode-docker",
 				"streetsidesoftware.code-spell-checker"
 			]
 		}

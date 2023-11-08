@@ -1,7 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/python:0-3.10
 
-CMD pwd
-
 # Add relevant files
 ADD *.py /
 ADD *.sh /
