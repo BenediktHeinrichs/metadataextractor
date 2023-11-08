@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/python:0-3.10
 
-WORKDIR ../
+RUN pwd
 
 # Add relevant files
 ADD *.py /
