@@ -37,4 +37,5 @@ jobs:
           cacheFrom: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           push: always
           runCmd: |
-            sudo sh ../installDependencies.sh
+            cd ..
+            sudo sh ./installDependencies.sh
