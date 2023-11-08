@@ -20,7 +20,7 @@ jobs:
       - name: Pre-build dev container image
         uses: devcontainers/ci@v0.3
         with:
+          subFolder: .github
           imageName: ghcr.io/BenediktHeinrichs/metadataextractor-devcontainer
           cacheFrom: ghcr.io/BenediktHeinrichs/metadataextractor-devcontainer
           push: always
-          runCmd: sudo sh ./installDependencies.sh
