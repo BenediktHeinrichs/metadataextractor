@@ -2,8 +2,9 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
 	"name": "Python 3",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "Dockerfile",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 
 	// Configure tool-specific properties.
 	"customizations": {
