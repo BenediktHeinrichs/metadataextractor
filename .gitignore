@@ -140,3 +140,4 @@ dmypy.json
 output
 logs
 google_cloud_credentials.json
+tika-server.jar
