@@ -35,3 +35,5 @@ jobs:
           imageName: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           imageTag: devcontainer
           push: always
+          runCmd: |
+            sudo sh ./installDependencies.sh
