@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-from distutils.util import convert_path
 import os, os.path
 
 packageName = "MetadataExtractor"

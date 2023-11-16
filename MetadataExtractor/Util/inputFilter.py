@@ -32,7 +32,6 @@ def getTmpFileName():
 
 
 def downloadFile(url):
-
     log.info("Downloading " + url)
 
     response = requests.get(url, stream=True)

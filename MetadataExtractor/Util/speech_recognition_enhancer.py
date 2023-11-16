@@ -2,7 +2,6 @@ from speech_recognition import (
     AudioData,
     Recognizer,
     RequestError,
-    UnknownValueError,
     URLError,
 )
 import os
@@ -31,7 +30,7 @@ class EnhancedSpeechRecognition(Recognizer):
             assert os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") is not None
         assert isinstance(language, str), "``language`` must be a string"
         assert preferred_phrases is None or all(
-            isinstance(preferred_phrases, (type(""), type(u"")))
+            isinstance(preferred_phrases, (type(""), type("")))
             for preferred_phrases in preferred_phrases
         ), "``preferred_phrases`` must be a list of strings"
 

@@ -2,11 +2,9 @@
 # -*- coding: utf8 -*-
 
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 import math
 from adjustText import adjust_text
-from scipy.optimize import curve_fit
 
 
 def plot_vs_errorbar(
@@ -85,7 +83,7 @@ def plot_oddball_features(x, y, x_fit, y_fit, labels, anomalies, output="nmf res
     )
     plt.plot(
         [i for i in range(0, x_max)],
-        [i ** 2 for i in range(0, x_max)],
+        [i**2 for i in range(0, x_max)],
         linestyle="--",
         color="b",
     )

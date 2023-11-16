@@ -3,7 +3,6 @@
 # https://setuptools.readthedocs.io/en/latest/setuptools.html#namespace-packages
 __import__("pkg_resources").declare_namespace(__name__)
 
-from ._version import __version__
 
 import logging
 from logging import NullHandler

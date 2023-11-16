@@ -11,12 +11,10 @@ log = logging.getLogger(__name__)
 
 class SummaryExtract(ITextExtract):
     def text_extract(self, text, fileInfo):
-
         sentences = _clean_text_by_sentences(text)
         trig = ""
 
         if len(sentences) > 1:
-
             log.info("Executing Summary extraction.")
             gensim_summary = gensim.summarization.summarize(text)
 

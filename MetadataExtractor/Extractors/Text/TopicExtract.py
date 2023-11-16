@@ -1,6 +1,5 @@
 from sklearn.decomposition import LatentDirichletAllocation as LDA, NMF
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import uuid
 import logging
 
 log = logging.getLogger(__name__)
@@ -15,7 +14,6 @@ from .ITextExtract import ITextExtract
 
 
 class TopicExtract(ITextExtract):
-
     # Helper function
     def print_topics(self, model, vectorizer, number_words):
         topic_text = ""
@@ -34,13 +32,11 @@ class TopicExtract(ITextExtract):
         return topic_text
 
     def text_extract(self, text, fileInfo):
-
         config = self._IExtract__config
 
         metadata = ""
 
         if text and not text.isspace() and len(text.strip()) > 5:
-
             log.info("Executing topic extraction.")
 
             # TODO: Implement detecting the optimal numbers:
@@ -69,15 +65,12 @@ class TopicExtract(ITextExtract):
 
             model.fit(data)
 
-            topic_text = self.print_topics(model, vectorizer, number_words)
+            self.print_topics(model, vectorizer, number_words)
 
             ontology = "topic"
 
             words = vectorizer.get_feature_names_out()
             for topic_idx, topic in enumerate(model.components_):
-                topicIdentifier = metadataFormatter.replaceForbiddenValues(
-                    str(uuid.uuid4()) + "_" + str(topic_idx + 1)
-                )
 
                 rootValues = []
                 for word, topicRelevancy in [

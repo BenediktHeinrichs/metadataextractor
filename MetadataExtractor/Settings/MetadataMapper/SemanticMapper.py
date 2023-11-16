@@ -12,6 +12,7 @@ from MetadataExtractor.Util import metadataCreation
 
 import validators
 
+
 # TODO: Use SemanticMapper implementation (contact the server ~~or include lib~~)
 class SemanticMapper(IMapper):
     def mappingWrapper(self, variableSubjects, config):
@@ -20,16 +21,20 @@ class SemanticMapper(IMapper):
         for applicationProfile in self.__applicationProfiles:
             applicationProfiles.append(
                 {
-                    "definition": applicationProfile.serialize(format="turtle", encoding="utf-8").decode(
-                        "utf-8"
-                    )
+                    "definition": applicationProfile.serialize(
+                        format="turtle", encoding="utf-8"
+                    ).decode("utf-8")
                 }
             )
 
         vocabularies = []
         for vocabulary in self.__vocabularies:
             vocabularies.append(
-                {"definition": vocabulary.serialize(format="turtle", encoding="utf-8").decode("utf-8")}
+                {
+                    "definition": vocabulary.serialize(
+                        format="turtle", encoding="utf-8"
+                    ).decode("utf-8")
+                }
             )
 
         sendEntries = []
@@ -97,9 +102,13 @@ class SemanticMapper(IMapper):
         imageUrl = metadataCreation.getOntologyUrl(config, "image")
 
         variableSubjects = dict()
-        for (subject, predicate, obj, contextGraph) in g.quads():
+        for subject, predicate, obj, contextGraph in g.quads():
             predStr = str(predicate)
-            if attributesUrl in predStr or codeTokenUrl in predStr or imageUrl in predStr:
+            if (
+                attributesUrl in predStr
+                or codeTokenUrl in predStr
+                or imageUrl in predStr
+            ):
                 if subject in variableSubjects:
                     variableSubjects[subject].append(
                         (

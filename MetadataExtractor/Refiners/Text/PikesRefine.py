@@ -1,4 +1,4 @@
-from rdflib.graph import Graph, ConjunctiveGraph
+from rdflib.graph import ConjunctiveGraph
 
 import logging
 
@@ -21,8 +21,10 @@ class PikesRefine(IRefine):
         self, metadata, fileInfo, metadataformat="trig", plottingGraph=False, skip=True
     ):
         if not skip and metadata and not metadata.isspace():
-
-            if "The request payload size exceeds the max post size limitation" in metadata:
+            if (
+                "The request payload size exceeds the max post size limitation"
+                in metadata
+            ):
                 log.info("Too big for Pikes.")
                 return "", metadataformat
 
@@ -43,7 +45,7 @@ class PikesRefine(IRefine):
             metadata = metadata.replace("..", ".")
             g.parse(data=metadata, format=metadataformat)
             toRemove = []
-            for (subject, predicate, obj) in g:
+            for subject, predicate, obj in g:
                 stringPredicate = str(predicate)
                 stringObject = str(obj)
                 if (
@@ -71,7 +73,7 @@ class PikesRefine(IRefine):
                 # Remove Pikes giving every word in a new sentence a new id
                 toRemove = []
                 toAdd = []
-                for (subject, predicate, obj) in g:
+                for subject, predicate, obj in g:
                     stringSubject = str(subject)
                     stringObject = str(obj)
                     delete = False
@@ -98,10 +100,12 @@ class PikesRefine(IRefine):
             # Add a fact graph and remove the indiviual fact graphs
             factG = ConjunctiveGraph()
             factIdentifier = fact[fileIdentifier]
-            factgraph = factG.get_context(factIdentifier + "/@type=metadata&extracted=true")
+            factgraph = factG.get_context(
+                factIdentifier + "/@type=metadata&extracted=true"
+            )
             for context in list(g.contexts()):
                 if "fact:" in context.identifier and len(context.all_nodes()) > 0:
-                    for (subject, predicate, obj) in context:
+                    for subject, predicate, obj in context:
                         factgraph.add((subject, predicate, obj))
 
             if plottingGraph:
@@ -110,7 +114,9 @@ class PikesRefine(IRefine):
             # Conversion to nquads for speed purposes
             metadataformat = "nquads"
             return (
-                factG.serialize(format=metadataformat, base=fact[fileIdentifier], encoding='utf8')
+                factG.serialize(
+                    format=metadataformat, base=fact[fileIdentifier], encoding="utf8"
+                )
                 .decode("utf-8")
                 .replace("\xa0", ""),
                 metadataformat,
@@ -119,7 +125,6 @@ class PikesRefine(IRefine):
             return metadata, metadataformat
 
     def __plotGraph(self, result):
-
         G = rdflib_to_networkx_multidigraph(result)
 
         # Plot Networkx instance of RDF Graph
@@ -131,7 +136,6 @@ class PikesRefine(IRefine):
 
 
 if __name__ == "__main__":
-
     pikesRefine = PikesRefine({})
 
     for test in PikesRefineTest.returnData():

@@ -1,10 +1,10 @@
 from .IDataExtract import IDataExtract
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
-import flowio
 import flowkit as fk
 import logging
 
 log = logging.getLogger(__name__)
+
 
 class FcsExtract(IDataExtract):
     def extract(self, fileInfo):
@@ -13,7 +13,7 @@ class FcsExtract(IDataExtract):
 
         fcs_data = fk.Sample(fileInfo["file"])
         attributes = fcs_data.get_metadata()
-        
+
         values = []
         identifier = fileInfo["identifier"]
 

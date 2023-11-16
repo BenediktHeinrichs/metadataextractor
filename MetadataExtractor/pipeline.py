@@ -4,12 +4,12 @@
 
 import os
 import importlib
-import uuid
 import logging
 
 log = logging.getLogger(__name__)
 import magic
 from MetadataExtractor.Util import inputFilter, metadataCreation, mimeTypeFixer
+
 
 # Dynamic import based on config
 def importDependencies(config):
@@ -52,7 +52,7 @@ class MetadataHandler:
     def refine_and_store_metadata(self, metadata, metadataformat="trig", mimetype=None):
         fileInfo = self.__fileInfo
         if (
-            mimetype != None
+            mimetype is not None
             and mimetype in self.__metadataRefiners
             and len(self.__metadataRefiners[mimetype]) > 0
         ):
@@ -90,8 +90,10 @@ class MetadataHandler:
         for metadataCombinerImplementation in self.__metadataCombinerImplementations:
             metadata += metadataCombinerImplementation.combine(fileInfo)
         for metadataMapperImplementation in self.__metadataMapperImplementations:
-            metadata = metadataMapperImplementation.map(metadata, self.__config["Values"]["Settings"]["Format"])
-        returnObject = { "identifier": fileInfo["identifier"] }
+            metadata = metadataMapperImplementation.map(
+                metadata, self.__config["Values"]["Settings"]["Format"]
+            )
+        returnObject = {"identifier": fileInfo["identifier"]}
         for storageImplementation in self.__storageImplementations:
             returnObject["metadata"] = storageImplementation.complete_metadata(
                 metadata, fileInfo
@@ -107,7 +109,6 @@ class MetadataHandler:
 # It expects a file array input and a config file
 # An example of a config object can be found in "pipeline_runner.py"
 def run_pipeline(fileInformation: list, config):
-
     importDependencies(config)
 
     resultArray = []
@@ -116,9 +117,10 @@ def run_pipeline(fileInformation: list, config):
         mime = magic.Magic(mime=True)
 
     for fileInfo in fileInformation:
-
-        if fileInfo["identifier"] == None:
-            fileInfo["identifier"] = fileInfo["file"][fileInfo["file"].rindex(os.sep)+1:]
+        if fileInfo["identifier"] is None:
+            fileInfo["identifier"] = fileInfo["file"][
+                fileInfo["file"].rindex(os.sep) + 1 :
+            ]
 
         log.info('Starting pipeline on "' + str(fileInfo) + '".')
 
@@ -159,11 +161,12 @@ def run_pipeline(fileInformation: list, config):
                 fileInfo["file"]
             )
         if type(generic_extraction["metadata"]["Content-Type"]) is list:
-            generic_extraction["metadata"]["Content-Type"] = generic_extraction["metadata"]["Content-Type"][0]
+            generic_extraction["metadata"]["Content-Type"] = generic_extraction[
+                "metadata"
+            ]["Content-Type"][0]
         mimetype = generic_extraction["metadata"]["Content-Type"].lower()
         mimetype = mimeTypeFixer.fixMimeType(
-            mimetype,
-            os.path.splitext(fileInfo["file"])[1]
+            mimetype, os.path.splitext(fileInfo["file"])[1]
         )
         log.info("Mimetype: " + repr(mimetype))
         # Store MimeType
@@ -177,9 +180,9 @@ def run_pipeline(fileInformation: list, config):
                     ],
                     "values": [{"predicate": "dcat:mediaType", "object": mimetype}],
                 },
-                True
+                True,
             ),
-            "trig"
+            "trig",
         )
 
         for extractorType in extractors.keys():

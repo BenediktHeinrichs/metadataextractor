@@ -90,6 +90,14 @@ The server uses defined response models to structure the JSON response. This inc
 
 Contributions are welcome! Please feel free to submit a pull request.
 
+## Linting & Fixing
+
+```
+pip install ruff
+ruff format .
+ruff --fix .
+```
+
 ### Development
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/BenediktHeinrichs/metadataextractor)

@@ -1,8 +1,6 @@
 # Source: https://github.com/Sundar0989/Speech-to-text/blob/master/Google_Longaudio_API_without_speaker_diarization.ipynb
 
 from pydub import AudioSegment
-import io
-import os
 from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
@@ -47,7 +45,6 @@ def google_transcribe(
     credentials_json=None,
     enable_automatic_punctuation=False,
 ):
-
     file_name = audio_file_name
 
     # The name of the audio file to transcribe

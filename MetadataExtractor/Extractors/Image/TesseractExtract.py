@@ -5,6 +5,7 @@ import logging
 log = logging.getLogger(__name__)
 from .IImageExtract import IImageExtract
 
+
 # Follow installation here: https://pypi.org/project/pytesseract/
 class TesseractExtract(IImageExtract):
     def image_extract(self, fileInfo):
@@ -14,7 +15,7 @@ class TesseractExtract(IImageExtract):
             img = Image.open(file)
             text = tess.image_to_string(img)
             img.close()
-        except Exception as identifier:
+        except Exception:
             return ("", "")
         return (text, "")
 

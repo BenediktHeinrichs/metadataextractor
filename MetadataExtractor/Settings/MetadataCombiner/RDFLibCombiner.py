@@ -19,7 +19,8 @@ class RDFLibCombiner(ICombiner):
         log.info("Combining Metadata.")
         return self.__g.serialize(
             format=self._ICombiner__config["Values"]["Settings"]["Format"],
-            encoding="utf-8").decode("utf-8")
+            encoding="utf-8",
+        ).decode("utf-8")
 
     def reset(self):
         self.__g = ConjunctiveGraph()

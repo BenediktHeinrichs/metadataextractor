@@ -1,6 +1,4 @@
 import moviepy.editor as mp
-from MetadataExtractor.Extractors.Audio import SpeechRecognitionExtract
-from MetadataExtractor.Extractors.Image import ObjectExtract, TesseractExtract
 from .IVideoExtract import IVideoExtract
 import os
 import logging
@@ -8,9 +6,7 @@ import logging
 log = logging.getLogger(__name__)
 import cv2
 import uuid
-import numpy as np
 
-from ..Interfaces.IExtract import IExtract
 
 
 class AudioSpeechRecognitionExtract(IVideoExtract):
@@ -48,7 +44,7 @@ class AudioSpeechRecognitionExtract(IVideoExtract):
         usedType = "Audio"
         text = ""
         metadata = ""
-        if clip.audio != None:
+        if clip.audio is not None:
             clip.audio.write_audiofile(audioFileName)
             for extractor in extractors[usedType]:
                 (extractedText, extractedMetadata) = extractor.extract(

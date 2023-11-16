@@ -15,7 +15,6 @@ from .ITextExtract import ITextExtract
 
 
 class DetailedTopicExtract(ITextExtract):
-
     # Helper function
     def print_topics(self, model, vectorizer, number_words):
         topic_text = ""
@@ -34,13 +33,11 @@ class DetailedTopicExtract(ITextExtract):
         return topic_text
 
     def text_extract(self, text, fileInfo):
-
         config = self._IExtract__config
 
         metadata = ""
 
         if text and not text.isspace() and len(text.strip()) > 5:
-
             log.info("Executing topic extraction.")
 
             # TODO: Implement detecting the optimal numbers:
@@ -69,7 +66,7 @@ class DetailedTopicExtract(ITextExtract):
 
             model.fit(data)
 
-            topic_text = self.print_topics(model, vectorizer, number_words)
+            self.print_topics(model, vectorizer, number_words)
 
             ontology = "topic"
 

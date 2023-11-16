@@ -8,7 +8,6 @@ import logging
 log = logging.getLogger(__name__)
 import os, os.path
 
-from ..Interfaces.IExtract import IExtract
 from .IAudioExtract import IAudioExtract
 
 

@@ -6,9 +6,9 @@ log = logging.getLogger(__name__)
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
 from ..Interfaces.IRefine import IRefine
 
+
 class TikaRefine(IRefine):
     def refine_metadata(self, metadata, fileInfo, metadataformat="trig"):
-
         log.info("Refining Tika metadata.")
 
         # TODO: Make use of http://oscaf.sourceforge.net/nfo.html
@@ -23,12 +23,17 @@ class TikaRefine(IRefine):
             "File_Modified_Date": "dcterms:modified",
         }
 
-        skippedValues = ["File_Name", "X_Parsed_By", "X_TIKA_content_handler", "X_TIKA_embedded_depth", "X_TIKA_parse_time_millis"]
+        skippedValues = [
+            "File_Name",
+            "X_Parsed_By",
+            "X_TIKA_content_handler",
+            "X_TIKA_embedded_depth",
+            "X_TIKA_parse_time_millis",
+        ]
 
         values = []
-        
-        for (key, value) in metadata["metadata"].items():
 
+        for key, value in metadata["metadata"].items():
             refinedKey = metadataFormatter.replaceForbiddenValues(key)
 
             if refinedKey in skippedValues:
@@ -58,10 +63,16 @@ class TikaRefine(IRefine):
                     refinedKey = refinedKey.replace("tiff_", "exif_")
                     refinedKey = refinedKey.replace("_", ":")
                     colonIndex = refinedKey.index(":")
-                    refinedKey = refinedKey[:colonIndex] + refinedKey[colonIndex:colonIndex+1].lower() + refinedKey[colonIndex+1:]
+                    refinedKey = (
+                        refinedKey[:colonIndex]
+                        + refinedKey[colonIndex : colonIndex + 1].lower()
+                        + refinedKey[colonIndex + 1 :]
+                    )
                     values.append({"predicate": refinedKey, "object": currentVal})
                 elif refinedKey in predicatemap:
-                    values.append({"predicate": predicatemap[refinedKey], "object": currentVal})
+                    values.append(
+                        {"predicate": predicatemap[refinedKey], "object": currentVal}
+                    )
                 else:
                     values.append(
                         {
@@ -69,15 +80,27 @@ class TikaRefine(IRefine):
                             "object": currentVal,
                         }
                     )
-        
+
         values.append({"predicate": "a", "object": "http://www.w3.org/ns/dcat#Catalog"})
-        values.append({"predicate": "a", "object": "http://www.w3.org/ns/dcat#Distribution"})
+        values.append(
+            {"predicate": "a", "object": "http://www.w3.org/ns/dcat#Distribution"}
+        )
 
         file_stats = os.stat(fileInfo["file"])
 
         values.append({"predicate": "dcat:byteSize", "object": file_stats.st_size})
-        values.append({"predicate": "dcterms:created", "object": datetime.datetime.fromtimestamp(file_stats.st_ctime)})
-        values.append({"predicate": "dcterms:modified", "object": datetime.datetime.fromtimestamp(file_stats.st_mtime)})
+        values.append(
+            {
+                "predicate": "dcterms:created",
+                "object": datetime.datetime.fromtimestamp(file_stats.st_ctime),
+            }
+        )
+        values.append(
+            {
+                "predicate": "dcterms:modified",
+                "object": datetime.datetime.fromtimestamp(file_stats.st_mtime),
+            }
+        )
 
         trig = metadataCreation.addMetadataToFileGraph(
             fileInfo,
@@ -92,7 +115,7 @@ class TikaRefine(IRefine):
                 ],
                 "values": values,
             },
-            True
+            True,
         )
 
         return (trig, "trig")

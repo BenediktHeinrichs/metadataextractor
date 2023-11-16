@@ -70,7 +70,6 @@ class TikaExtract(IGenericExtract):
 
 
 if __name__ == "__main__":
-
     from argparse import ArgumentParser
 
     def __parse_arguments():

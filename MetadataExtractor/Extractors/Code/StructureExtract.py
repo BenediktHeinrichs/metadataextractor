@@ -1,9 +1,7 @@
-from ..Interfaces.IExtract import IExtract
 from .ICodeExtract import ICodeExtract
 
 from pygments import lex
 from pygments.lexers import guess_lexer_for_filename
-from pygments.formatters import HtmlFormatter
 from pygments.token import Name
 
 import logging
@@ -20,7 +18,7 @@ class StructureExtract(ICodeExtract):
 
         try:
             lexer = guess_lexer_for_filename(fileInfo["file"], code)
-        except Exception as identifier:
+        except Exception:
             return ("", "")
 
         log.info("Extracting structural metadata with pygments.")

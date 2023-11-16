@@ -21,14 +21,23 @@ class FileAdapter(IAdapter):
     def complete(self, text, fileInfo, extension=".trig"):
         if not os.path.exists(self.__outputPath):
             os.makedirs(self.__outputPath)
-        textFile = self.__outputPath + "/" + fileInfo["identifier"].replace("/", "%2F") + extension
+        textFile = (
+            self.__outputPath
+            + "/"
+            + fileInfo["identifier"].replace("/", "%2F")
+            + extension
+        )
         log.info('Storing text to "' + textFile + '".')
         with open(textFile, "w", encoding="utf-8") as text_file:
             text_file.write(text)
         return textFile
 
     def complete_metadata(self, metadata, fileInfo):
-        return self.complete(metadata, fileInfo, "." + self._IAdapter__config["Values"]["Settings"]["Format"])
+        return self.complete(
+            metadata,
+            fileInfo,
+            "." + self._IAdapter__config["Values"]["Settings"]["Format"],
+        )
 
     def complete_text(self, content, fileInfo):
         return self.complete(content, fileInfo, ".txt")

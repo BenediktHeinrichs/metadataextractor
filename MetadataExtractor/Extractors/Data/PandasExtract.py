@@ -1,9 +1,8 @@
 from .IDataExtract import IDataExtract
-import pandas
-from MetadataExtractor.Util import metadataCreation, metadataFormatter
 import logging
 
 log = logging.getLogger(__name__)
+
 
 # TODO: Implement with the MimeTypes here and get information from a dataframe (https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html#other-file-formats)
 class PandasExtract(IDataExtract):

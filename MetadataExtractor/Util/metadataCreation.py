@@ -3,7 +3,6 @@ from MetadataExtractor.Util import metadataFormatter
 
 
 def createGraphForFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
-
     values = graphOptions["values"]
 
     ontology = None
@@ -49,14 +48,13 @@ def createGraphForFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False
                 }
             ]
         },
-        dataGraphUsage
+        dataGraphUsage,
     )
 
     return trig
 
 
 def addEntryToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
-
     values = graphOptions["values"]
 
     ontology = None
@@ -103,7 +101,7 @@ def addEntryToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False):
                 }
             ]
         },
-        dataGraphUsage
+        dataGraphUsage,
     )
 
     return trig
@@ -133,10 +131,12 @@ def addMetadataToFileGraph(fileInfo, config, graphOptions, dataGraphUsage=False)
 
     dataGraph += "&extracted=true"
     metadataGraph += "&extracted=true"
-    
+
     identifier = identifier.replace("&type=data", "")
 
-    trig += "<{}{}/{}>".format(getFileGraph(config), identifier, dataGraph if dataGraphUsage else metadataGraph)
+    trig += "<{}{}/{}>".format(
+        getFileGraph(config), identifier, dataGraph if dataGraphUsage else metadataGraph
+    )
     trig += " {\n"
 
     subjectString = "<{}{}>".format(getFileGraph(config), identifier)
@@ -171,7 +171,6 @@ def addValues(subjectString, values):
 
 
 def getPrefixes(additionalPrefixes, config, ontology=None):
-
     trig = ""
     trig += "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n"
     trig += "@prefix dcterms: <http://purl.org/dc/terms/> .\n"
@@ -180,7 +179,7 @@ def getPrefixes(additionalPrefixes, config, ontology=None):
     trig += "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n"
     trig += "@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n"
 
-    if ontology != None:
+    if ontology is not None:
         trig += "@prefix {}: <{}> .\n".format(
             getOntologyGraphName(ontology), getOntologyGraphUrl(config)
         )
@@ -217,6 +216,7 @@ def getOntologyUrl(config, ontology):
         metadataFormatter.getBaseUrl(config),
         ontology,
     )
+
 
 def getOntologyAttributesUrl(config, ontology):
     return "{}ontologies/{}/attributes#".format(

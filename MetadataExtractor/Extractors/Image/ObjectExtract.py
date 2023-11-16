@@ -6,15 +6,11 @@ import logging
 log = logging.getLogger(__name__)
 from collections import Counter
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
-from ..Interfaces.IExtract import IExtract
 from .IImageExtract import IImageExtract
 
 
 class ObjectExtract(IImageExtract):
-    def image_extract(
-        self, fileInfo, rootFileInfo=False, frameNumber=False
-    ):
-
+    def image_extract(self, fileInfo, rootFileInfo=False, frameNumber=False):
         file = fileInfo["file"]
 
         config = self._IExtract__config
@@ -26,8 +22,10 @@ class ObjectExtract(IImageExtract):
 
         im = cv2.imread(file)
         if im is not None:
-            yolo_nas = super_gradients.training.models.get("yolo_nas_l", pretrained_weights="coco")
-            model_predictions  = yolo_nas.predict(file)
+            yolo_nas = super_gradients.training.models.get(
+                "yolo_nas_l", pretrained_weights="coco"
+            )
+            model_predictions = yolo_nas.predict(file)
             model_prediction = model_predictions[0]
             all_class_names = model_prediction.class_names
             prediction = model_prediction.prediction
@@ -46,8 +44,7 @@ class ObjectExtract(IImageExtract):
 
             ontology = "image"
 
-            if rootFileInfo != False:
-
+            if rootFileInfo is not False:
                 fileIdentifier = metadataFormatter.formatIdentifier(
                     fileInfo["identifier"]
                 )
@@ -67,7 +64,7 @@ class ObjectExtract(IImageExtract):
                     },
                 )
 
-                if frameNumber != False:
+                if frameNumber is not False:
                     trig += metadataCreation.addMetadataToFileGraph(
                         fileInfo,
                         self._IExtract__config,
@@ -88,7 +85,7 @@ class ObjectExtract(IImageExtract):
                         },
                     )
 
-            for (elemn, cnt) in counter.items():
+            for elemn, cnt in counter.items():
                 obj = "{}ontologies/{}/object#{}".format(
                     metadataFormatter.getBaseUrl(config),
                     ontology,
@@ -122,24 +119,21 @@ class ObjectExtract(IImageExtract):
             if len(class_names) > 0:
                 text += (
                     "This image"
-                    + (" on frame " + str(frameNumber) if frameNumber != False else "")
+                    + (" on frame " + str(frameNumber) if frameNumber is not False else "")
                     + " contains "
                 )
-                for (elemn, cnt) in counter.items():
+                for elemn, cnt in counter.items():
                     text += str(cnt) + " " + elemn + ", "
                 text = text[:-2]
                 text += " as objects."
             log.debug(text)
         return ("", trig)
 
-    def extract(
-        self, fileInfo, rootFileInfo=False, frameNumber=False
-    ):
+    def extract(self, fileInfo, rootFileInfo=False, frameNumber=False):
         return self.image_extract(fileInfo, rootFileInfo, frameNumber)
 
 
 if __name__ == "__main__":
-
     objectExtract = ObjectExtract({})
     objectExtract.image_extract(
         {"identifier": "1234", "file": ".\\Examples\\fruits.jpeg"}

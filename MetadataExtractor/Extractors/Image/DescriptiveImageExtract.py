@@ -4,7 +4,6 @@ import logging
 
 log = logging.getLogger(__name__)
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
-from ..Interfaces.IExtract import IExtract
 from .IImageExtract import IImageExtract
 
 
@@ -12,7 +11,6 @@ class DescriptiveImageExtract(IImageExtract):
     def image_extract(
         self, fileInfo, showDifference=False, rootFileInfo=False, frameNumber=False
     ):
-
         file = fileInfo["file"]
 
         config = self._IExtract__config
@@ -23,7 +21,7 @@ class DescriptiveImageExtract(IImageExtract):
 
         trig = ""
 
-        try: 
+        try:
             image = Image.open(file)
 
             metadata = {
@@ -32,7 +30,7 @@ class DescriptiveImageExtract(IImageExtract):
                 "ebucore:hasFormat": image.format,
                 "image:mode": image.mode,
                 "image:isAnimated": getattr(image, "is_animated", False),
-                "image:frameNumber": getattr(image, "n_frames", 1)
+                "image:frameNumber": getattr(image, "n_frames", 1),
             }
 
             exifdata = image.getexif()
@@ -42,22 +40,29 @@ class DescriptiveImageExtract(IImageExtract):
                 # get the tag name, instead of human unreadable tag id
                 tag = TAGS.get(tag_id, tag_id)
                 data = exifdata.get(tag_id)
-                
-                # decode bytes 
-                if isinstance(data, bytes):
-                    data = data.decode(errors='ignore')
 
-                if isinstance(data, str) and '\n' in data and '=' in data:
-                    for line in data.split('\n'):
+                # decode bytes
+                if isinstance(data, bytes):
+                    data = data.decode(errors="ignore")
+
+                if isinstance(data, str) and "\n" in data and "=" in data:
+                    for line in data.split("\n"):
                         if "\x01" not in line and "\x17" not in line and "=" in line:
-                            kvs = line.split('=')
-                            metadata["image:" + str(metadataFormatter.replaceForbiddenValues(kvs[0]))] = kvs[1]
+                            kvs = line.split("=")
+                            metadata[
+                                "image:"
+                                + str(metadataFormatter.replaceForbiddenValues(kvs[0]))
+                            ] = kvs[1]
                     continue
-                
+
                 metadata["image:" + str(tag)] = data
 
-            metadata = [{ "predicate": key, "object": value} for key, value in metadata.items() if value != None and value != ""]
-                
+            metadata = [
+                {"predicate": key, "object": value}
+                for key, value in metadata.items()
+                if value is not None and value != ""
+            ]
+
             trig += metadataCreation.addMetadataToFileGraph(
                 fileInfo,
                 self._IExtract__config,
@@ -68,13 +73,13 @@ class DescriptiveImageExtract(IImageExtract):
                             ontology,
                             metadataFormatter.getBaseUrl(config),
                             ontology,
-                        )
+                        ),
                     ],
                     "values": metadata,
                 },
             )
         except:
-            return ("", "")    
+            return ("", "")
 
         return ("", trig)
 
@@ -85,7 +90,6 @@ class DescriptiveImageExtract(IImageExtract):
 
 
 if __name__ == "__main__":
-
     objectExtract = DescriptiveImageExtract({})
     objectExtract.image_extract(
         {"identifier": "1234", "file": ".\\Dump\\fruits.jpeg"}, __debug__

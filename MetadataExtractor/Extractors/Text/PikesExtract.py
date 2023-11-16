@@ -21,12 +21,14 @@ class PikesParser:
         return self.__pikesApiPoint
 
     def makerequest(self, text):
-        payload = {"text": text.replace(u"\u000c", "")}
-        return self.__represent(requests.post(self.__pikesApiPoint, data=payload, verify=False))
+        payload = {"text": text.replace("\u000c", "")}
+        return self.__represent(
+            requests.post(self.__pikesApiPoint, data=payload, verify=False)
+        )
 
     def parse(self, text):
         try:
-            if text != None:
+            if text is not None:
                 sentences = sent_tokenize(text)
                 if len(sentences) > self.__pikesBatchSize:
                     log.info(
@@ -138,7 +140,7 @@ if __name__ == "__main__":
         args_parser.print_help()
         sys.exit(1)
 
-    if args.pikesApiPoint == None:
+    if args.pikesApiPoint is None:
         pikesExtract = PikesExtract({})
         result = pikesExtract.extract({"identifier": "TestFile", "file": args.file})
     else:

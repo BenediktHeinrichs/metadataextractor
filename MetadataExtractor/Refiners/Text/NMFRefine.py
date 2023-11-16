@@ -1,4 +1,4 @@
-from rdflib.graph import Graph, ConjunctiveGraph
+from rdflib.graph import ConjunctiveGraph
 from rdflib.extras.external_graph_libs import rdflib_to_networkx_multidigraph
 import networkx as nx
 from sklearn.decomposition import NMF
@@ -22,11 +22,9 @@ class NMFRefine(IRefine):
     def refine_metadata(
         self, metadata, fileInfo=None, metadataformat="trig", plottingGraph=False
     ):
-
         # TODO: Read https://ebiquity.umbc.edu/_file_directory_/papers/771.pdf for better understanding
 
-        if metadata != None:
-
+        if metadata is not None:
             log.info("Refining Metadata using NMF.")
 
             g = ConjunctiveGraph()

@@ -4,7 +4,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-from ..Interfaces.IExtract import IExtract
 from .IPdfExtract import IPdfExtract
 
 

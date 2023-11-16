@@ -28,8 +28,7 @@ class Hdf5Extract(IDataExtract):
         self.__dataSets = []
         self.__catalogMetadata = ""
 
-    def getMetadataFromDataSet(self, fileInfo, dataSet: 'Dataset'):
-
+    def getMetadataFromDataSet(self, fileInfo, dataSet: "Dataset"):
         # TODO: metadata subject for a dataset has to be different
 
         shape = dataSet.shape
@@ -56,7 +55,6 @@ class Hdf5Extract(IDataExtract):
         except ValueError:
             pass
 
-
         # map to http://www.qudt.org/doc/2020/07/DOC_SCHEMA-QUDT-v2.1.html
         # http://qudt.org/2.0/schema/qudt/
         # http://www.linkedmodel.org/schema/dtype
@@ -76,23 +74,23 @@ class Hdf5Extract(IDataExtract):
             {"predicate": "qudt:dataType", "object": dtype},
             {"predicate": "qudt:length", "object": size},
         ]
-        if average != None:
+        if average is not None:
             values.append(
                 {"predicate": "dbo:average", "object": average},
             )
-        if max != None:
+        if max is not None:
             values.append(
                 {"predicate": "dbo:max", "object": max},
             )
-        if min != None:
+        if min is not None:
             values.append(
                 {"predicate": "dbo:min", "object": min},
             )
-        if compression != None:
+        if compression is not None:
             values.append(
                 {"predicate": "{}:compression".format(ontology), "object": compression}
             )
-        if compression_opts != None:
+        if compression_opts is not None:
             values.append(
                 {
                     "predicate": "{}:compression_opts".format(ontology),
