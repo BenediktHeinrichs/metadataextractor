@@ -94,8 +94,8 @@ Contributions are welcome! Please feel free to submit a pull request.
 
 ```
 pip install ruff
-ruff format .
 ruff --fix .
+ruff format .
 ```
 
 ### Development
