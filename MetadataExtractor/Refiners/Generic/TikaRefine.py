@@ -1,10 +1,10 @@
 import os
 import datetime
 import logging
-
-log = logging.getLogger(__name__)
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
 from ..Interfaces.IRefine import IRefine
+
+log = logging.getLogger(__name__)
 
 
 class TikaRefine(IRefine):
@@ -43,11 +43,11 @@ class TikaRefine(IRefine):
 
             while queue != []:
                 currentVal = queue.pop()
-                if type(currentVal) == list:
+                if isinstance(currentVal, list):
                     for entry in currentVal:
                         queue.append(entry)
                     continue
-                elif type(currentVal) != str:
+                elif not isinstance(currentVal, str):
                     currentVal = currentVal.decode("utf-8")
                 elif "'" in currentVal:
                     currentVal = currentVal[

@@ -1,9 +1,9 @@
 import pytesseract as tess
 from PIL import Image
 import logging
+from .IImageExtract import IImageExtract
 
 log = logging.getLogger(__name__)
-from .IImageExtract import IImageExtract
 
 
 # Follow installation here: https://pypi.org/project/pytesseract/

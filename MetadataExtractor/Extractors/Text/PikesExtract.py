@@ -1,14 +1,14 @@
 # encoding=utf8
 import sys
 import logging
-
-log = logging.getLogger(__name__)
 from argparse import ArgumentParser
 import requests
 from nltk.tokenize import sent_tokenize
 
 from MetadataExtractor.Refiners.Text import PikesRefine
 from .ITextExtract import ITextExtract
+
+log = logging.getLogger(__name__)
 
 
 class PikesParser:

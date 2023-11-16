@@ -2,11 +2,10 @@ import moviepy.editor as mp
 from .IVideoExtract import IVideoExtract
 import os
 import logging
-
-log = logging.getLogger(__name__)
 import cv2
 import uuid
 
+log = logging.getLogger(__name__)
 
 
 class AudioSpeechRecognitionExtract(IVideoExtract):

@@ -1,7 +1,8 @@
 import logging
 from logging.config import dictConfig
 
-import os, os.path
+import os
+import os.path
 
 
 def setDefaultLogging():

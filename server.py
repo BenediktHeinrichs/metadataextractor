@@ -13,12 +13,12 @@ import filedate
 import logging
 from defaultConfigs import setDefaultLogging, getDefaultConfig
 
+from MetadataExtractor.pipeline import run_pipeline
+from MetadataExtractor import __version__
+
 setDefaultLogging()
 
 log = logging.getLogger(__name__)
-
-from MetadataExtractor.pipeline import run_pipeline
-from MetadataExtractor import __version__
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = os.environ.get(

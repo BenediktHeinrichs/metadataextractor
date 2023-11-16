@@ -6,9 +6,10 @@ import os
 import importlib
 import logging
 
-log = logging.getLogger(__name__)
 import magic
 from MetadataExtractor.Util import inputFilter, metadataCreation, mimeTypeFixer
+
+log = logging.getLogger(__name__)
 
 
 # Dynamic import based on config
@@ -160,7 +161,7 @@ def run_pipeline(fileInformation: list, config):
             generic_extraction["metadata"]["Content-Type"] = mime.from_file(
                 fileInfo["file"]
             )
-        if type(generic_extraction["metadata"]["Content-Type"]) is list:
+        if isinstance(generic_extraction["metadata"]["Content-Type"], list):
             generic_extraction["metadata"]["Content-Type"] = generic_extraction[
                 "metadata"
             ]["Content-Type"][0]

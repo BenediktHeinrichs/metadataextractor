@@ -2,8 +2,6 @@ from sklearn.decomposition import LatentDirichletAllocation as LDA, NMF
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import uuid
 import logging
-
-log = logging.getLogger(__name__)
 from MetadataExtractor.Util import (
     metadataCreation,
     metadataFormatter,
@@ -12,6 +10,8 @@ from MetadataExtractor.Util import (
 import pyLDAvis
 import os
 from .ITextExtract import ITextExtract
+
+log = logging.getLogger(__name__)
 
 
 class DetailedTopicExtract(ITextExtract):

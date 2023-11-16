@@ -1,9 +1,9 @@
 import os
 import logging
 
-log = logging.getLogger(__name__)
-
 from .IAdapter import IAdapter
+
+log = logging.getLogger(__name__)
 
 
 class FileAdapter(IAdapter):

@@ -7,9 +7,9 @@ from tika import tika
 import sys
 import logging
 
-log = logging.getLogger(__name__)
-
 from ..Interfaces.IExtract import IExtract
+
+log = logging.getLogger(__name__)
 
 
 class TikaExtract(IGenericExtract):

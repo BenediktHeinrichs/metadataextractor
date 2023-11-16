@@ -1,7 +1,8 @@
 import re
 from tqdm import tqdm
 import requests
-import os, os.path
+import os
+import os.path
 import uuid
 import logging
 

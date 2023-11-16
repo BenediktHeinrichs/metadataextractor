@@ -3,14 +3,14 @@ import logging
 import requests
 import json
 
-log = logging.getLogger(__name__)
-
 import os
 from rdflib.graph import Graph, ConjunctiveGraph
 from rdflib import URIRef, Literal
 from MetadataExtractor.Util import metadataCreation
 
 import validators
+
+log = logging.getLogger(__name__)
 
 
 # TODO: Use SemanticMapper implementation (contact the server ~~or include lib~~)
@@ -144,7 +144,7 @@ class SemanticMapper(IMapper):
                         if vals is not None:
                             predicate = entry[0]
                             obj = str(entry[1])
-                            if type(vals) is list:
+                            if isinstance(vals, list):
                                 predicate = vals[0]
                                 obj = vals[1]
                             else:
@@ -181,7 +181,7 @@ class SemanticMapper(IMapper):
                     buildPath = "../../../Data/" + graph["file"]
                     graphPath = os.path.abspath(os.path.join(currentPath, buildPath))
                     g.parse(source=graphPath, format=graph["format"])
-                except:
+                except Exception:
                     log.error("Path not valid: " + graphPath)
             elif "data" in graph:
                 g.parse(data=graph["data"], format=graph["format"])

@@ -5,10 +5,12 @@ from pydub import AudioSegment
 from MetadataExtractor.Util import speech_recognition_enhancer, google_cloud_long
 import logging
 
-log = logging.getLogger(__name__)
-import os, os.path
+import os
+import os.path
 
 from .IAudioExtract import IAudioExtract
+
+log = logging.getLogger(__name__)
 
 
 class SpeechRecognitionExtract(IAudioExtract):

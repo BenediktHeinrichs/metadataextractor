@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
-import os, os.path
+import os
+import os.path
 
 packageName = "MetadataExtractor"
 
@@ -12,7 +13,11 @@ with open(ver_path) as ver_file:
 
 def parse_requirements(requirements):
     with open(requirements) as f:
-        return [l.strip("\n") for l in f if l.strip("\n") and not l.startswith("#")]
+        return [
+            line.strip("\n")
+            for line in f
+            if line.strip("\n") and not line.startswith("#")
+        ]
 
 
 requirements = parse_requirements("{}\\requirements.txt".format(current_dir))

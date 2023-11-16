@@ -6,9 +6,9 @@ from pygments.token import Name
 
 import logging
 
-log = logging.getLogger(__name__)
-
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
+
+log = logging.getLogger(__name__)
 
 
 class StructureExtract(ICodeExtract):

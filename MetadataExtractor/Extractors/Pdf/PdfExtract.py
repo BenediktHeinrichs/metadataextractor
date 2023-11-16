@@ -2,9 +2,9 @@ import fitz
 import os
 import logging
 
-log = logging.getLogger(__name__)
-
 from .IPdfExtract import IPdfExtract
+
+log = logging.getLogger(__name__)
 
 
 class PdfExtract(IPdfExtract):

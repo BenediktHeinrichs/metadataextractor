@@ -1,9 +1,9 @@
 import logging
-
-log = logging.getLogger(__name__)
 from rdflib.graph import ConjunctiveGraph
 
 from .ICombiner import ICombiner
+
+log = logging.getLogger(__name__)
 
 
 class RDFLibCombiner(ICombiner):

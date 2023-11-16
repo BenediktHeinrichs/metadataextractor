@@ -1,8 +1,6 @@
 from sklearn.decomposition import LatentDirichletAllocation as LDA, NMF
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import logging
-
-log = logging.getLogger(__name__)
 from MetadataExtractor.Util import (
     metadataCreation,
     metadataFormatter,
@@ -11,6 +9,8 @@ from MetadataExtractor.Util import (
 import pyLDAvis
 import os
 from .ITextExtract import ITextExtract
+
+log = logging.getLogger(__name__)
 
 
 class TopicExtract(ITextExtract):
@@ -71,7 +71,6 @@ class TopicExtract(ITextExtract):
 
             words = vectorizer.get_feature_names_out()
             for topic_idx, topic in enumerate(model.components_):
-
                 rootValues = []
                 for word, topicRelevancy in [
                     (words[i], topic[i])

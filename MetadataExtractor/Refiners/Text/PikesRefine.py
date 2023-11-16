@@ -2,8 +2,6 @@ from rdflib.graph import ConjunctiveGraph
 
 import logging
 
-log = logging.getLogger(__name__)
-
 from rdflib import Namespace, URIRef
 from rdflib.extras.external_graph_libs import rdflib_to_networkx_multidigraph
 import networkx as nx
@@ -14,6 +12,8 @@ from MetadataExtractor.Util import metadataFormatter
 from ..Interfaces.IRefine import IRefine
 
 import PikesRefineTest
+
+log = logging.getLogger(__name__)
 
 
 class PikesRefine(IRefine):

@@ -7,11 +7,11 @@ from scipy.optimize import curve_fit
 import math
 import logging
 
-log = logging.getLogger(__name__)
-
 import visualizationNMF as vis
 
 from ..Interfaces.IRefine import IRefine
+
+log = logging.getLogger(__name__)
 
 
 class NMFRefine(IRefine):

@@ -1,10 +1,10 @@
 from PIL import Image
 from PIL.ExifTags import TAGS
 import logging
-
-log = logging.getLogger(__name__)
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
 from .IImageExtract import IImageExtract
+
+log = logging.getLogger(__name__)
 
 
 class DescriptiveImageExtract(IImageExtract):
@@ -78,7 +78,7 @@ class DescriptiveImageExtract(IImageExtract):
                     "values": metadata,
                 },
             )
-        except:
+        except Exception:
             return ("", "")
 
         return ("", trig)

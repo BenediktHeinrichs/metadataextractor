@@ -2,11 +2,11 @@
 import cv2
 import super_gradients
 import logging
-
-log = logging.getLogger(__name__)
 from collections import Counter
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
 from .IImageExtract import IImageExtract
+
+log = logging.getLogger(__name__)
 
 
 class ObjectExtract(IImageExtract):
@@ -119,7 +119,11 @@ class ObjectExtract(IImageExtract):
             if len(class_names) > 0:
                 text += (
                     "This image"
-                    + (" on frame " + str(frameNumber) if frameNumber is not False else "")
+                    + (
+                        " on frame " + str(frameNumber)
+                        if frameNumber is not False
+                        else ""
+                    )
                     + " contains "
                 )
                 for elemn, cnt in counter.items():

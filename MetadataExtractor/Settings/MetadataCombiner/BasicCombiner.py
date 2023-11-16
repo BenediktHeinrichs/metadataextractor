@@ -1,8 +1,8 @@
 import logging
 
-log = logging.getLogger(__name__)
-
 from .ICombiner import ICombiner
+
+log = logging.getLogger(__name__)
 
 
 class BasicCombiner(ICombiner):
