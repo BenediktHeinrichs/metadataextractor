@@ -52,3 +52,4 @@ pandas==1.5.1
 flowkit==1.0.0
 openai-whisper
 soundfile
+pefile==2023.2.7

@@ -70,7 +70,11 @@ def getDefaultConfig():
                 # "SummaryExtract",
             ],
             "Triples": [],
-            "Data": ["FcsExtract", "Hdf5Extract"],
+            "Data": [
+                "ExeExtract",
+                "FcsExtract",
+                "Hdf5Extract"
+            ],
             "Image": [
                 "DescriptiveImageExtract",
                 "ObjectExtract",
