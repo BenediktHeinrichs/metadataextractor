@@ -21,5 +21,7 @@ RUN chown -R appuser:appuser /home/appuser
 # Switch to non-root user
 USER appuser
 
+RUN chmod +x getCheckpoints.sh && ./getCheckpoints.sh
+
 # Set the entry point
 CMD ["/bin/sh", "-c", "./run.sh"]
