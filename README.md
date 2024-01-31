@@ -18,7 +18,7 @@ To install MetadataExtractor, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-repository/MetadataExtractor.git
+    git clone https://github.com/BenediktHeinrichs/MetadataExtractor.git
     cd MetadataExtractor
     ```
 
