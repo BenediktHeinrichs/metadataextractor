@@ -1,8 +1,8 @@
 from .IDataExtract import IDataExtract
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
 import pydicom
+from pathlib import Path
 from pydicom._version import __version_info__
-
 import logging
 
 log = logging.getLogger(__name__)
