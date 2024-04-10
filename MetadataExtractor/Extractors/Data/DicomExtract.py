@@ -13,6 +13,8 @@ class DicomExtract(IDataExtract):
         log.info('Extracting metadata for Dicom file "' + fileInfo["file"] + '".')
         text = ""
 
+        dicom_metadata = {}
+        
         dicom_data = pydicom.dcmread(file)
         
         for elem in ds.iterall():
@@ -27,8 +29,8 @@ class DicomExtract(IDataExtract):
         values = []
         identifier = fileInfo["identifier"]
 
-        for attribute in attributes.keys():
-            objectValue = attributes[attribute]
+        for attribute in dicom_metadata.keys():
+            objectValue = dicom_metadata[attribute]
             values.append(
                 {
                     "predicate": "mexattr:"
