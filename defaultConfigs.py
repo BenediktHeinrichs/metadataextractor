@@ -73,7 +73,8 @@ def getDefaultConfig():
             "Data": [
                 "ExeExtract",
                 "FcsExtract",
-                "Hdf5Extract"
+                "Hdf5Extract",
+                "DicomExtract"
             ],
             "Image": [
                 "DescriptiveImageExtract",
