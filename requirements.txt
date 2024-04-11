@@ -53,3 +53,4 @@ flowkit==1.0.0
 openai-whisper
 soundfile
 pefile==2023.2.7
+pydicom==2.4.4
