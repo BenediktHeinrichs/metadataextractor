@@ -1,0 +1,23 @@
+# U-SPECT parameter file v4.0
+
+[System]
+ScannerID       = "80481"
+SoftwareVersion = "12.27-st"
+ScannerType     = "U-CT"
+
+[Animal]
+ScanID          = "2022-03-07_18h21_M3_Cy7"
+AnimalID        = "SS_FluoInserts"
+
+[Images]
+FovXY_mm        = 88.000000    
+FovZ_mm         = 230.000000    
+
+[Acquisition]
+AcqStartTime    = "2022-03-07 18:50:00"
+SPECT           = 0    
+CT              = 1    
+OI              = 0    
+FLT             = 1    
+BLT             = 0    
+Fluoroscopy     = 0    
