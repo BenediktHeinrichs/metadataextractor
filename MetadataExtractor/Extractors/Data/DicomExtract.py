@@ -29,6 +29,8 @@ class DicomExtract(IDataExtract):
 
         for attribute in dicom_metadata.keys():
             objectValue = dicom_metadata[attribute]
+        for attribute in dicom_metadata.keys():
+            objectValue = dicom_metadata[attribute]
             values.append(
                 {
                     "predicate": "mexattr:"
