@@ -13,28 +13,28 @@ class DicomExtract(IDataExtract):
         log.info('Extracting metadata for Dicom file "' + fileInfo["file"] + '".')
         text = ""
 
-        dicom_metadata = pydicom.dcmread(file)
+        dicom_metadata = pydicom.dcmread(fileInfo["file"])
         
         for elem in dicom_metadata.iterall():
             if elem.tag.is_private:
                 continue  # Skip private tags
-            tag_str = str(elem.tag)
+            tag_str = elem.tag
             value = elem.value
             if isinstance(value, pydicom.valuerep.DSfloat):
                 value = float(value)
-            dicom_metadata[tag_str] = value
+            logging.info(dicom_metadata.keys)
+                # Construct a DataElement instance
+            data_element = pydicom.DataElement(tag_str, elem.VR, value)
+            dicom_metadata[tag_str] = data_element
 
         values = []
         identifier = fileInfo["identifier"]
 
         for attribute in dicom_metadata.keys():
             objectValue = dicom_metadata[attribute]
-        for attribute in dicom_metadata.keys():
-            objectValue = dicom_metadata[attribute]
             values.append(
                 {
-                    "predicate": "mexattr:"
-                    + metadataFormatter.replaceForbiddenValues(attribute),
+                    "predicate": "mexattr:" + metadataFormatter.replaceForbiddenValues(str(attribute)),
                     "object": objectValue,
                 }
             )
@@ -56,4 +56,4 @@ class DicomExtract(IDataExtract):
         return (text, metadata)
 
     def registerMimeTypes(self):
-        self.mimeTypes["concrete"] = ["application/dcm"]
+        self.mimeTypes["concrete"] = ["application/dcm", "application/dicom"]
