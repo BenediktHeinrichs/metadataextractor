@@ -1,0 +1,31 @@
+# mCT settings file v1.0
+
+[mCT]
+name               = FLT totalbody normal
+magnification      = total_body
+scan_angle         = 360.000000
+scan_mode          = normal
+lin_stage_position = -1.000000
+mode               = step_and_shoot
+angle_start        = 0.000000
+angle_speed_deg_s  = 0.000000
+angle_step_deg     = 0.750000
+binning            = x11
+exposure_ms        = 75.000000
+frame_averaging    = 1
+xray_voltage_kV    = 55.000000
+xray_current_mA    = 0.170000
+exposure2_ms       = 0.000000
+xray_voltage2_kV   = 0.000000
+xray_current2_mA   = 0.000000
+origin_offset_z    = 236.200000
+HU_calibration     = 20342.444444
+BeamHardening      = 0.245556
+HU_calibration2    = 0.000000
+BeamHardening2     = 0.000000
+NrScans            = 1
+gating_proj_per_angle = 1
+filter_1           = Al400
+filter_2           = 
+fixed_filter       = Al 100�m
+Pitch (if helical) = 0.000000
