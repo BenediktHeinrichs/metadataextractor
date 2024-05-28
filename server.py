@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
 from flask_restx import Api, Resource, fields, inputs
 from werkzeug.datastructures import FileStorage
 import os
@@ -21,6 +22,7 @@ setDefaultLogging()
 log = logging.getLogger(__name__)
 
 app = Flask(__name__)
+CORS(app) # Enables CORS for all routes
 app.config["MAX_CONTENT_LENGTH"] = os.environ.get(
     "MAX_CONTENT_LENGTH", 500 * 1000 * 1000
 )
