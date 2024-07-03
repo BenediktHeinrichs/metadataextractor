@@ -56,3 +56,4 @@ openai-whisper
 soundfile
 pefile==2023.2.7
 pydicom==2.4.4
+transformers==4.42.3

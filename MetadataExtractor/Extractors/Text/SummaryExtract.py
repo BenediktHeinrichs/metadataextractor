@@ -1,24 +1,23 @@
 from .ITextExtract import ITextExtract
 from MetadataExtractor.Util import metadataCreation, metadataFormatter
-import gensim
-from gensim.summarization.textcleaner import (
-    clean_text_by_sentences as _clean_text_by_sentences,
-)
+from transformers import pipeline
 import logging
 
 log = logging.getLogger(__name__)
 
 
 class SummaryExtract(ITextExtract):
+    def __init__(self, config):
+        ITextExtract.__init__(self, config)
+        self.summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
     def text_extract(self, text, fileInfo):
-        sentences = _clean_text_by_sentences(text)
         trig = ""
 
-        if len(sentences) > 1:
+        if isinstance(text, str) and len(text.strip()) > 30:
             log.info("Executing Summary extraction.")
-            gensim_summary = gensim.summarization.summarize(text)
 
-            formattedSummary = gensim_summary.replace("\\", "").replace('"""', "'''")
+            formattedSummary = self.summarizer(text, max_length=200, min_length=30, do_sample=False)[0]["summary_text"]
 
             trig = metadataCreation.addMetadataToFileGraph(
                 fileInfo,
