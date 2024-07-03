@@ -67,12 +67,13 @@ The service exposes several endpoints:
 
 - This endpoint accepts form-data with a download url or a file along with optional parameters:
   - `identifier`: A unique identifier for the file.
-  - `config`: Configuration object for extraction settings.
+  - `config`: Configuration object for extraction settings. (Example value: `{ "Extractors": { "Text": [ "SummaryExtract" ] } }`)
   - `creation_date`: File's creation date.
   - `modification_date`: File's modification date.
   - `url`: Download URL of the file.
   - `dynamic_url`: Download URL of the file (loading dynamic JavaScript).
   - `file`: The file to be processed.
+  - `accept`: The Accept header has to be set (default is JSON, recommended is Turtle)
 - Returns extracted metadata in the requested format. (JSON, Turtle, RDF/XML, JSON-LD, TriG)
 
 ### GET /defaultConfig

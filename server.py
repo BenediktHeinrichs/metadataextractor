@@ -8,6 +8,7 @@ import shutil
 import re
 import base64
 import quopri
+import json
 from urllib.parse import urlparse
 from urllib.request import urlretrieve, urlopen
 from playwright.sync_api import sync_playwright
@@ -54,7 +55,7 @@ parser.add_argument("identifier", type=str, help="File Identifier", location="fo
 parser.add_argument(
     "config",
     type=object,
-    help='Object defining the utilized configuration (try "/defaultConfig" to get the structure)',
+    help='Object defining the overwriting configuration (try "/defaultConfig" to get the structure)',
     location="form",
 )
 parser.add_argument(
@@ -94,6 +95,22 @@ metadataOutput = api.model(
         "text": fields.String(),
     },
 )
+
+# From https://stackoverflow.com/a/7205672
+def mergedicts(dict1, dict2):
+    for k in set(dict1.keys()).union(dict2.keys()):
+        if k in dict1 and k in dict2:
+            if isinstance(dict1[k], dict) and isinstance(dict2[k], dict):
+                yield (k, dict(mergedicts(dict1[k], dict2[k])))
+            else:
+                # If one of the values is not a dict, you can't continue merging it.
+                # Value from second dict overrides one in first and we move on.
+                yield (k, dict2[k])
+                # Alternatively, replace this with exception raiser to alert you of value conflicts
+        elif k in dict1:
+            yield (k, dict1[k])
+        else:
+            yield (k, dict2[k])
 
 def writeDynamicUrlToSystem(dynamicUrl, fileName):
     with sync_playwright() as p:
@@ -181,7 +198,7 @@ class MetadataExtractorWorker(Resource):
         pipelineInput.append({"identifier": identifier, "file": fileName})
 
         if "config" in data:
-            config = data["config"]
+            config = dict(mergedicts(getDefaultConfig(), json.loads(data["config"])))
         else:
             config = getDefaultConfig()
         if "Settings" not in config:

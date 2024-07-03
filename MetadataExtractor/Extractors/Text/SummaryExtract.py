@@ -29,7 +29,7 @@ class SummaryExtract(ITextExtract):
                         )
                     ],
                     "values": [
-                        {"predicate": "text:summarizedBy", "object": formattedSummary}
+                        {"predicate": "text:summary", "object": formattedSummary}
                     ],
                 },
             )
