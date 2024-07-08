@@ -134,95 +134,98 @@ class MetadataExtractorWorker(Resource):
         + " maximum)",
     )
     def post(self):
-        pipelineInput = []
+        try:
+            pipelineInput = []
 
-        data = dict(request.form)
-        folder = os.path.join(str(os.getcwd()), str(uuid.uuid4()))
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+            data = dict(request.form)
+            folder = os.path.join(str(os.getcwd()), str(uuid.uuid4()))
+            if not os.path.exists(folder):
+                os.makedirs(folder)
 
-        if "file" in request.files:
-            fileIdentifier = request.files["file"].filename
-            fileName = os.path.join(folder, fileIdentifier)
-            dirName = fileName[: fileName.rindex(os.sep)]
-            if not os.path.exists(dirName):
-                os.makedirs(dirName)
-            request.files["file"].save(fileName)
-        elif "url" in data:
-            parsedUrl = urlparse(data["url"])
-            fileIdentifier = os.path.basename(parsedUrl.path)
-            fileName = os.path.join(folder, fileIdentifier)
-            dirName = fileName[: fileName.rindex(os.sep)]
-            if not os.path.exists(dirName):
-                os.makedirs(dirName)
-            site = urlopen(data["url"])
-            if int(site.getheader("Content-Length")) > app.config["MAX_CONTENT_LENGTH"]:
-                return "File too big", 400
-            urlretrieve(data["url"], fileName)
-        elif "dynamic_url" in data:
-            parsedUrl = urlparse(data["dynamic_url"])
-            fileIdentifier = os.path.basename(parsedUrl.path)
-            fileName = os.path.join(folder, fileIdentifier)
-            dirName = fileName[: fileName.rindex(os.sep)]
-            if not os.path.exists(dirName):
-                os.makedirs(dirName)
+            if "file" in request.files:
+                fileIdentifier = request.files["file"].filename
+                fileName = os.path.join(folder, fileIdentifier)
+                dirName = fileName[: fileName.rindex(os.sep)]
+                if not os.path.exists(dirName):
+                    os.makedirs(dirName)
+                request.files["file"].save(fileName)
+            elif "url" in data:
+                parsedUrl = urlparse(data["url"])
+                fileIdentifier = os.path.basename(parsedUrl.path)
+                fileName = os.path.join(folder, fileIdentifier)
+                dirName = fileName[: fileName.rindex(os.sep)]
+                if not os.path.exists(dirName):
+                    os.makedirs(dirName)
+                site = urlopen(data["url"])
+                if int(site.getheader("Content-Length")) > app.config["MAX_CONTENT_LENGTH"]:
+                    return "File too big", 400
+                urlretrieve(data["url"], fileName)
+            elif "dynamic_url" in data:
+                parsedUrl = urlparse(data["dynamic_url"])
+                fileIdentifier = os.path.basename(parsedUrl.path)
+                fileName = os.path.join(folder, fileIdentifier)
+                dirName = fileName[: fileName.rindex(os.sep)]
+                if not os.path.exists(dirName):
+                    os.makedirs(dirName)
 
-            writeDynamicUrlToSystem(data["dynamic_url"], fileName)
-        else:
-            return "No file sent", 400
+                writeDynamicUrlToSystem(data["dynamic_url"], fileName)
+            else:
+                return "No file sent", 400
 
-        file_date = filedate.File(fileName)
-        get_file_date = file_date.get()
+            file_date = filedate.File(fileName)
+            get_file_date = file_date.get()
 
-        if "identifier" in data:
-            identifier = data["identifier"]
-        else:
-            identifier = None
+            if "identifier" in data:
+                identifier = data["identifier"]
+            else:
+                identifier = None
 
-        if "creation_date" in data:
-            creation_date = data["creation_date"]
-        else:
-            creation_date = get_file_date["created"]
+            if "creation_date" in data:
+                creation_date = data["creation_date"]
+            else:
+                creation_date = get_file_date["created"]
 
-        if "modification_date" in data:
-            modification_date = data["modification_date"]
-        else:
-            modification_date = get_file_date["modified"]
+            if "modification_date" in data:
+                modification_date = data["modification_date"]
+            else:
+                modification_date = get_file_date["modified"]
 
-        file_date.set(
-            created=creation_date,
-            modified=modification_date,
-            accessed=get_file_date["accessed"],
-        )
+            file_date.set(
+                created=creation_date,
+                modified=modification_date,
+                accessed=get_file_date["accessed"],
+            )
 
-        pipelineInput.append({"identifier": identifier, "file": fileName})
+            pipelineInput.append({"identifier": identifier, "file": fileName})
 
-        if "config" in data:
-            config = dict(mergedicts(getDefaultConfig(), json.loads(data["config"])))
-        else:
-            config = getDefaultConfig()
-        if "Settings" not in config:
-            config = getDefaultConfig()
-        config["Settings"]["Storage"] = ["ReturnAdapter"]
+            if "config" in data:
+                config = dict(mergedicts(getDefaultConfig(), json.loads(data["config"])))
+            else:
+                config = getDefaultConfig()
+            if "Settings" not in config:
+                config = getDefaultConfig()
+            config["Settings"]["Storage"] = ["ReturnAdapter"]
 
-        mimeType = request.accept_mimetypes.best
-        if mimeType == "text/turtle":
-            config["Values"]["Settings"]["Format"] = "turtle"
-        elif mimeType == "application/ld+json":
-            config["Values"]["Settings"]["Format"] = "json-ld"
-        elif mimeType == "application/rdf+xml":
-            config["Values"]["Settings"]["Format"] = "xml"
-        elif mimeType == "application/trig":
-            config["Values"]["Settings"]["Format"] = "trig"
+            mimeType = request.accept_mimetypes.best
+            if mimeType == "text/turtle":
+                config["Values"]["Settings"]["Format"] = "turtle"
+            elif mimeType == "application/ld+json":
+                config["Values"]["Settings"]["Format"] = "json-ld"
+            elif mimeType == "application/rdf+xml":
+                config["Values"]["Settings"]["Format"] = "xml"
+            elif mimeType == "application/trig":
+                config["Values"]["Settings"]["Format"] = "trig"
 
-        iterativeList = run_pipeline(pipelineInput, config)
+            iterativeList = run_pipeline(pipelineInput, config)
 
-        shutil.rmtree(folder, ignore_errors=True)
-
-        if mimeType == "application/json":
-            return jsonify(iterativeList)
-        else:
-            return Response(iterativeList[0]["metadata"], mimetype=mimeType)
+            if mimeType == "application/json":
+                return jsonify(iterativeList)
+            else:
+                return Response(iterativeList[0]["metadata"], mimetype=mimeType)
+        
+        # Delete file, even on error
+        finally:
+            shutil.rmtree(folder, ignore_errors=True)
 
 
 @api.route("/defaultConfig")
