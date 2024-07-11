@@ -90,7 +90,7 @@ The server uses defined response models to structure the JSON response. This inc
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request.
+Contributions are welcome, check out the [Contribution guidelines](./CONTRIBUTING.md)! Please feel free to submit a pull request.
 
 ## Linting & Fixing
 

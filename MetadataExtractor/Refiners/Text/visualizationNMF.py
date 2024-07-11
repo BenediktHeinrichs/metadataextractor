@@ -94,7 +94,7 @@ def plot_oddball_features(x, y, x_fit, y_fit, labels, anomalies, output="nmf res
     ax.set_ylim(0, y_max)
     ax.set_xlim(0, x_max)
 
-    print(anomalies)
+    #print(anomalies)
 
     texts = []
     for label, x, y in list(zip(labels, x, y))[:10]:

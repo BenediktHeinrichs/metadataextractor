@@ -152,6 +152,8 @@ class MetadataExtractorWorker(Resource):
             elif "url" in data:
                 parsedUrl = urlparse(data["url"])
                 fileIdentifier = os.path.basename(parsedUrl.path)
+                if fileIdentifier == "":
+                    fileIdentifier = "temp.html"
                 fileName = os.path.join(folder, fileIdentifier)
                 dirName = fileName[: fileName.rindex(os.sep)]
                 if not os.path.exists(dirName):
@@ -163,6 +165,8 @@ class MetadataExtractorWorker(Resource):
             elif "dynamic_url" in data:
                 parsedUrl = urlparse(data["dynamic_url"])
                 fileIdentifier = os.path.basename(parsedUrl.path)
+                if fileIdentifier == "":
+                    fileIdentifier = "temp.html"
                 fileName = os.path.join(folder, fileIdentifier)
                 dirName = fileName[: fileName.rindex(os.sep)]
                 if not os.path.exists(dirName):

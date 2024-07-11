@@ -126,11 +126,11 @@ class NMFRefine(IRefine):
                 subGraph = np.reshape(np.array(Wt), (len(Wt), 1))
                 computed = subGraph.T * np.reshape(np.array(Ht), (len(Ht), 1))
                 ComputedG = nx.from_numpy_matrix(computed)
-                print("Nodes: " + str(len(ComputedG.nodes())))
-                print("Edges: " + str(len(ComputedG.edges())))
+                #print("Nodes: " + str(len(ComputedG.nodes())))
+                #print("Edges: " + str(len(ComputedG.edges())))
 
-                print(len(labels[subGraphNumber]))
-                print(labels[subGraphNumber])
+                #print(len(labels[subGraphNumber]))
+                #print(labels[subGraphNumber])
                 outputfile.write("{}\n".format(labels[subGraphNumber]))
 
             outputfile.close()
