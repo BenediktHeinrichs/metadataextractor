@@ -11,7 +11,6 @@ import quopri
 import json
 from urllib.parse import urlparse
 from urllib.request import urlretrieve, urlopen
-from playwright.sync_api import sync_playwright
 import filedate
 import logging
 from defaultConfigs import setDefaultLogging, getDefaultConfig
@@ -71,7 +70,6 @@ parser.add_argument(
     location="form",
 )
 parser.add_argument("url", type=str, help="Download URL of file", location="form")
-parser.add_argument("dynamic_url", type=str, help="Dynamic download URL of file (JavaScript)", location="form")
 parser.add_argument("file", type=FileStorage, location="files")
 parser.add_argument(
     "accept",
@@ -111,14 +109,6 @@ def mergedicts(dict1, dict2):
             yield (k, dict1[k])
         else:
             yield (k, dict2[k])
-
-def writeDynamicUrlToSystem(dynamicUrl, fileName):
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
-        page.goto(dynamicUrl)
-        with open(fileName, 'w') as file:
-            file.write(page.content())
 
 @api.route("/")
 class MetadataExtractorWorker(Resource):
@@ -162,17 +152,6 @@ class MetadataExtractorWorker(Resource):
                 if int(site.getheader("Content-Length")) > app.config["MAX_CONTENT_LENGTH"]:
                     return "File too big", 400
                 urlretrieve(data["url"], fileName)
-            elif "dynamic_url" in data:
-                parsedUrl = urlparse(data["dynamic_url"])
-                fileIdentifier = os.path.basename(parsedUrl.path)
-                if fileIdentifier == "":
-                    fileIdentifier = "temp.html"
-                fileName = os.path.join(folder, fileIdentifier)
-                dirName = fileName[: fileName.rindex(os.sep)]
-                if not os.path.exists(dirName):
-                    os.makedirs(dirName)
-
-                writeDynamicUrlToSystem(data["dynamic_url"], fileName)
             else:
                 return "No file sent", 400
 

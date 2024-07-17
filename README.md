@@ -71,7 +71,6 @@ The service exposes several endpoints:
   - `creation_date`: File's creation date.
   - `modification_date`: File's modification date.
   - `url`: Download URL of the file.
-  - `dynamic_url`: Download URL of the file (loading dynamic JavaScript).
   - `file`: The file to be processed.
   - `accept`: The Accept header has to be set (default is JSON, recommended is Turtle)
 - Returns extracted metadata in the requested format. (JSON, Turtle, RDF/XML, JSON-LD, TriG)
